@@ -42,31 +42,34 @@ export default function App() {
       </Tab.Navigator>
     );
   };
+  const AppStack = (
+    <>
+      <Stack.Screen
+        name="Home"
+        component={Tabs}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AddPost"
+        component={AddPost}
+        options={({ navigation }) => ({
+          title: "Add Post",
+          headerLeft: () => (
+            <Icon
+              name="arrow-back"
+              type="ionicon"
+              onPress={() => navigation.goBack()}
+            />
+          ),
+        })}
+      />
+      <Tab.Screen name="MeEdit" component={MeEdit} />
+    </>
+  );
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Tabs}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="AddPost"
-          component={AddPost}
-          options={({ navigation }) => ({
-            title: "Add Post",
-            headerLeft: () => (
-              <Icon
-                name="arrow-back"
-                type="ionicon"
-                onPress={() => navigation.goBack()}
-              />
-            ),
-          })}
-        />
-        <Tab.Screen name="MeEdit" component={MeEdit} />
-      </Stack.Navigator>
+      <Stack.Navigator>{isUserLoggedIn ? AppStack : AuthStack}</Stack.Navigator>
     </NavigationContainer>
   );
 }
