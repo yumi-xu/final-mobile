@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
-import { Input, Button, Text } from "@rneui/themed";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { Input, Button, Text, Switch } from "@rneui/themed";
+import MapView, { Marker } from "react-native-maps";
+import DatePicker from "../Components/Datepicker";
 
 export default function AddEditEvent({ route, navigation }) {
   const isEditMode = route.params?.event !== undefined;
@@ -17,7 +18,7 @@ export default function AddEditEvent({ route, navigation }) {
   const [location, setLocation] = useState(initialEvent.location);
   const [description, setDescription] = useState(initialEvent.description);
   const [dateTime, setDateTime] = useState(initialEvent.dateTime);
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [reminder, setReminder] = useState(false);
 
   const handleSave = () => {
     const newEvent = {
@@ -32,52 +33,59 @@ export default function AddEditEvent({ route, navigation }) {
     navigation.goBack();
   };
 
+  const handleDateChange = (date) => {
+    setDateTime(date);
+  };
+
   return (
     <ScrollView style={styles.container}>
-      <Text h4 style={styles.header}>
-        {isEditMode ? "Edit Event" : "Add Event"}
-      </Text>
+      <Text style={styles.label}>Title *</Text>
       <Input
-        placeholder="Title"
+        placeholder="Enter event title"
         value={title}
         onChangeText={setTitle}
-        containerStyle={styles.inputContainer}
+        containerStyle={styles.innerInputContainer}
       />
+      <Text style={styles.label}>Description *</Text>
       <Input
-        placeholder="Location"
-        value={location}
-        onChangeText={setLocation}
-        containerStyle={styles.inputContainer}
-      />
-      <Input
-        placeholder="Description"
+        placeholder="Enter event description"
         value={description}
         onChangeText={setDescription}
         multiline
-        containerStyle={styles.inputContainer}
+        containerStyle={styles.innerInputContainer}
       />
-      <Button
-        title={`Select Date & Time: ${dateTime.toDateString()} ${dateTime.toLocaleTimeString()}`}
-        onPress={() => setShowDatePicker(true)}
-        containerStyle={styles.dateButtonContainer}
-      />
-      {showDatePicker && (
-        <DateTimePicker
-          value={dateTime}
-          mode="datetime"
-          display="default"
-          onChange={(event, selectedDate) => {
-            const currentDate = selectedDate || dateTime;
-            setShowDatePicker(false);
-            setDateTime(currentDate);
-          }}
+      <Text style={styles.label}>Date and Time *</Text>
+      <DatePicker date={dateTime} onDateChange={handleDateChange} />
+      <Text style={styles.label}>Selected Location *</Text>
+      <MapView
+        style={styles.map}
+        initialRegion={{
+          latitude: initialEvent.coordinates.latitude,
+          longitude: initialEvent.coordinates.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }}
+      >
+        <Marker coordinate={initialEvent.coordinates} />
+      </MapView>
+      <View style={styles.reminderContainer}>
+        <Switch value={reminder} onValueChange={setReminder} />
+        <Text style={styles.reminderText}>
+          Remind me 24 hours before the event starts
+        </Text>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Cancel"
+          onPress={() => navigation.goBack()}
+          buttonStyle={styles.cancelButton}
         />
-      )}
-      <Button
-        title="Save Event"
-        onPress={handleSave}
-        containerStyle={styles.saveButtonContainer}
-      />
+        <Button
+          title="Save"
+          onPress={handleSave}
+          buttonStyle={styles.saveButton}
+        />
+      </View>
     </ScrollView>
   );
 }
@@ -87,17 +95,37 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 15,
   },
-  header: {
-    marginBottom: 20,
-    color: "#fff",
-  },
   inputContainer: {
-    marginBottom: 15,
+    // marginBottom: 20,
   },
-  dateButtonContainer: {
+  label: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#333",
+  },
+  map: {
+    height: 200,
+    width: "100%",
     marginBottom: 20,
   },
-  saveButtonContainer: {
-    marginTop: 20,
+  reminderContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  reminderText: {
+    marginLeft: 10,
+    color: "#333",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  cancelButton: {
+    paddingHorizontal: 30,
+  },
+  saveButton: {
+    paddingHorizontal: 30,
   },
 });
