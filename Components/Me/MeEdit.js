@@ -3,105 +3,128 @@ import { Text, TextInput, Alert, StyleSheet, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useMyUserInfo } from "./useMyUserInfo";
 import { useUpdateUserInfo } from "./useUpdateUserInfo";
-import { Avatar, Button, Card } from "@rneui/themed";
+import { Avatar, Button, Card, Dialog } from "@rneui/themed";
 import { validateUserInfo } from "./validateUserInfo";
+import { GenderInput } from "./GenderInput";
 
 export default function MeEdit() {
   const navigation = useNavigation();
   const initialUserInfo = useMyUserInfo();
-  const [userInfo, setUserInfo] = useState(initialUserInfo);
+
+  const [name, setName] = useState(initialUserInfo.name);
+  const [age, setAge] = useState(initialUserInfo.age);
+  const [sex, setSex] = useState(initialUserInfo.sex);
+  const [avatar, setAvatar] = useState(initialUserInfo.avatar || "");
+  const [email, setEmail] = useState(initialUserInfo.email);
+  const [phone, setPhone] = useState(initialUserInfo.phone);
+  const [address, setAddress] = useState(initialUserInfo.address);
+  const [description, setDescription] = useState(initialUserInfo.description);
+
+  const [loading, setLoading] = useState(false);
+
   const updateUserInfo = useUpdateUserInfo();
 
-  // TODO: DEFAULT AVATAR
-  const avatar =
-    userInfo.avatar || "https://randomuser.me/api/portraits/men/1.jpg";
-
   useEffect(() => {
-    setUserInfo(initialUserInfo);
+    setName(initialUserInfo.name);
+    setAge(initialUserInfo.age);
+    setSex(initialUserInfo.sex);
+    setAvatar(initialUserInfo.avatar || "");
+    setEmail(initialUserInfo.email);
+    setPhone(initialUserInfo.phone);
+    setAddress(initialUserInfo.address);
+    setDescription(initialUserInfo.description);
   }, [initialUserInfo]);
 
   const handleUpdateProfile = async () => {
+    const userInfo = {
+      name,
+      age,
+      sex,
+      avatar,
+      email,
+      phone,
+      address,
+      description,
+    };
+    console.log("UserInfo before update:", userInfo);
+
+    const errors = validateUserInfo(userInfo);
+    if (errors.length) {
+      const message = [
+        "There are following errors in the field, please correct:\n",
+        ...errors,
+      ].join("\n");
+      Alert.alert("Error", message);
+      return;
+    }
+    setLoading(true);
     try {
-      console.log("UserInfo before update:", userInfo);
-
-      const errors = validateUserInfo(userInfo);
-      if (errors.length) {
-        const message = [
-          "There are following errors in the field, please correct:\n",
-          ...errors,
-        ].join("\n");
-        Alert.alert("Error", message);
-        return;
-      }
-
       await updateUserInfo(userInfo);
       Alert.alert("Success", "Profile updated successfully!");
       navigation.navigate("Me");
     } catch (error) {
-      console.error("Error updating profile: ", error);
+      setLoading(false);
+      Alert.alert("Failed", "Error updating profile!");
     }
   };
 
   return (
-    <ScrollView>
-      <Card>
-        <Text style={styles.label}>Avatar</Text>
-        <Avatar rounded source={{ uri: avatar }} />
+    <>
+      <ScrollView>
+        <Card>
+          <Text style={styles.label}>Avatar</Text>
+          <Avatar
+            rounded
+            source={{
+              // TODO: DEFAULT AVATAR
+              uri: avatar || "https://randomuser.me/api/portraits/men/1.jpg",
+            }}
+          />
 
-        <Text style={styles.label}>Name</Text>
-        <TextInput
-          value={userInfo.name}
-          onChangeText={(text) => setUserInfo({ ...userInfo, name: text })}
-          style={styles.input}
-        />
+          <Text style={styles.label}>Name</Text>
+          <TextInput value={name} onChangeText={setName} style={styles.input} />
 
-        <Text style={styles.label}>Age</Text>
-        <TextInput
-          value={userInfo.age}
-          onChangeText={(text) => setUserInfo({ ...userInfo, age: text })}
-          style={styles.input}
-        />
+          <Text style={styles.label}>Age</Text>
+          <TextInput value={age} onChangeText={setAge} style={styles.input} />
 
-        <Text style={styles.label}>Sex</Text>
-        <TextInput
-          value={userInfo.sex}
-          onChangeText={(text) => setUserInfo({ ...userInfo, sex: text })}
-          style={styles.input}
-        />
+          <Text style={styles.label}>Sex</Text>
+          <GenderInput value={sex} onChange={setSex} />
 
-        <Text style={styles.label}>Email</Text>
-        <TextInput
-          value={userInfo.email}
-          onChangeText={(text) => setUserInfo({ ...userInfo, email: text })}
-          style={styles.input}
-        />
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            value={email}
+            onChangeText={setEmail}
+            style={styles.input}
+          />
 
-        <Text style={styles.label}>Phone</Text>
-        <TextInput
-          value={userInfo.phone}
-          onChangeText={(text) => setUserInfo({ ...userInfo, phone: text })}
-          style={styles.input}
-        />
+          <Text style={styles.label}>Phone</Text>
+          <TextInput
+            value={phone}
+            onChangeText={setPhone}
+            style={styles.input}
+          />
 
-        <Text style={styles.label}>Address</Text>
-        <TextInput
-          value={userInfo.address}
-          onChangeText={(text) => setUserInfo({ ...userInfo, address: text })}
-          style={styles.input}
-        />
+          <Text style={styles.label}>Address</Text>
+          <TextInput
+            value={address}
+            onChangeText={setAddress}
+            style={styles.input}
+          />
 
-        <Text style={styles.label}>Description</Text>
-        <TextInput
-          value={userInfo.description}
-          onChangeText={(text) =>
-            setUserInfo({ ...userInfo, description: text })
-          }
-          style={styles.input}
-        />
+          <Text style={styles.label}>Description</Text>
+          <TextInput
+            value={description}
+            onChangeText={setDescription}
+            style={styles.input}
+          />
 
-        <Button title="Submit" onPress={handleUpdateProfile} />
-      </Card>
-    </ScrollView>
+          <Button title="Submit" onPress={handleUpdateProfile} />
+        </Card>
+      </ScrollView>
+      <Dialog visible={loading}>
+        <Dialog.Loading loadingProps={{ size: "large" }} />
+      </Dialog>
+    </>
   );
 }
 
