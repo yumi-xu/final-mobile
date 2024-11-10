@@ -122,7 +122,7 @@ export default function MeEdit() {
         </Card>
       </ScrollView>
       <Dialog visible={loading}>
-        <Dialog.Loading loadingProps={{ size: "large" }} />
+        <Text>Loading</Text>
       </Dialog>
     </>
   );
