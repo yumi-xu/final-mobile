@@ -7,6 +7,7 @@ import MeEdit from "./Components/Me/MeEdit";
 import Posts from "./screens/Posts";
 import AddPost from "./screens/AddPost";
 import { Button, Icon } from "@rneui/base";
+import Events from "./screens/Events";
 // import AntDesign from "@expo/vector-icons/AntDesign";
 
 const Stack = createStackNavigator();
@@ -40,6 +41,7 @@ export default function App() {
             },
           })}
         />
+        <Tab.Screen name="Event" component={Events}/>
         <Tab.Screen name="Me" component={Me} />
       </Tab.Navigator>
     );
