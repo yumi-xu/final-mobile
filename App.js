@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "./Firebase/firebaseSetup";
 import Me from "./Components/Me/Me";
 import MeEdit from "./Components/Me/MeEdit";
 import Posts from "./screens/Posts";
@@ -10,19 +12,45 @@ import { Button, Icon } from "@rneui/base";
 import Events from "./screens/Events";
 import EventDetail from "./screens/EventDetail";
 import AddEditEvent from "./screens/AddOrEditEvent";
+import Signup from "./Components/Signup";
+import Login from "./Components/Login";
 import { TouchableOpacity } from "react-native";
-// import AntDesign from "@expo/vector-icons/AntDesign";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { LoginUserIdProvider } from "./Components/UserContext";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  // TODO:need auth
-  const isUserLoggedIn = true;
+  const [userId, setUserId] = useState("");
+  const isUserLoggedIn = !!userId;
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log(JSON.stringify(user, null, 2));
+      if (user) {
+        setUserId(user.uid); // User is signed in
+      } else {
+        setUserId(""); // User is signed out
+      }
+    });
+
+    // Cleanup subscription on unmount
+    return unsubscribe;
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setUserId(""); // Update state after sign-out
+    } catch (error) {
+      console.error("Error signing out: ", error.message);
+    }
+  };
+
   const AuthStack = (
     <>
-      {/*<Stack.Screen name="Login" component={Login} />*/}
-      {/*<Stack.Screen name="Signup" component={Signup} />*/}
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Signup" component={Signup} />
     </>
   );
 
@@ -45,13 +73,25 @@ export default function App() {
           component={Events}
           options={({ navigation, route }) => ({
             headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate("AddEditEvent")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("AddEditEvent")}
+              >
                 <Icon name="add-circle" type="ionicon" size={30} />
               </TouchableOpacity>
             ),
           })}
         />
-        <Tab.Screen name="Me" component={Me} />
+        <Tab.Screen
+          name="Me"
+          component={Me}
+          options={{
+            headerRight: () => (
+              <Button onPress={handleSignOut}>
+                <AntDesign name="logout" size={24} color="white" />
+              </Button>
+            ),
+          }}
+        />
       </Tab.Navigator>
     );
   };
@@ -100,7 +140,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>{isUserLoggedIn ? AppStack : AuthStack}</Stack.Navigator>
+      <LoginUserIdProvider userId={userId}>
+        <Stack.Navigator>
+          {isUserLoggedIn ? AppStack : AuthStack}
+        </Stack.Navigator>
+      </LoginUserIdProvider>
     </NavigationContainer>
   );
 }

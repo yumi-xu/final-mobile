@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
 import { database } from "../../Firebase/firebaseSetup";
+import { useLoginUserId } from "../UserContext";
 
 export const useMyUserInfo = () => {
   const [userInfo, setUserInfo] = useState({
@@ -14,11 +15,7 @@ export const useMyUserInfo = () => {
     description: "",
   });
 
-  // const auth = getAuth();
-  // const userId = auth.currentUser?.uid;
-
-  //TODO: add auth in iteration 2
-  const userId = "123";
+  const userId = useLoginUserId();
 
   useEffect(() => {
     if (!userId) {
