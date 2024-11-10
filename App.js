@@ -7,6 +7,10 @@ import MeEdit from "./Components/Me/MeEdit";
 import Posts from "./screens/Posts";
 import AddPost from "./screens/AddPost";
 import { Button, Icon } from "@rneui/base";
+import Events from "./screens/Events";
+import EventDetail from "./screens/EventDetail";
+import AddEditEvent from "./screens/AddOrEditEvent";
+import { TouchableOpacity } from "react-native";
 // import AntDesign from "@expo/vector-icons/AntDesign";
 
 const Stack = createStackNavigator();
@@ -26,18 +30,25 @@ export default function App() {
     return (
       <Tab.Navigator>
         <Tab.Screen
-          name="Posts"
+          name="Post"
           component={Posts}
           options={({ navigation, route }) => ({
-            // Adding a custom AddButton in the header for Activities and Diets, not for Settings
-            headerRight: () => {
-              return route.name !== "Settings" ? (
-                <Button
-                  title="Add Post"
-                  onPress={() => navigation.navigate("AddPost")}
-                />
-              ) : null;
-            },
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate("AddPost")}>
+                <Icon name="add-circle" type="ionicon" size={30} />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Tab.Screen
+          name="Event"
+          component={Events}
+          options={({ navigation, route }) => ({
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate("AddEditEvent")}>
+                <Icon name="add-circle" type="ionicon" size={30} />
+              </TouchableOpacity>
+            ),
           })}
         />
         <Tab.Screen name="Me" component={Me} />
@@ -56,6 +67,24 @@ export default function App() {
         component={AddPost}
         options={({ navigation }) => ({
           title: "Add Post",
+          headerLeft: () => (
+            <Icon
+              name="arrow-back"
+              type="ionicon"
+              onPress={() => navigation.goBack()}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="EventDetails"
+        component={EventDetail}
+        options={{ title: "Event Details" }}
+      />
+      <Stack.Screen
+        name="AddEditEvent"
+        component={AddEditEvent}
+        options={({ navigation }) => ({
           headerLeft: () => (
             <Icon
               name="arrow-back"
