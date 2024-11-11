@@ -5,6 +5,7 @@ import { useLoginUserId } from "../UserContext";
 
 export const useMyUserInfo = () => {
   const [userInfo, setUserInfo] = useState({
+    id: userId,
     name: "",
     age: "",
     sex: "",
@@ -28,9 +29,11 @@ export const useMyUserInfo = () => {
           const data = docSnap.data();
           console.log("read data is", data);
           setUserInfo({
+            id: userId,
             name: data.name || "",
             age: data.age || "",
             sex: data.sex || "",
+            avatar: data.avatar || "",
             email: data.email || "",
             phone: data.phone || "",
             address: data.address || "",
