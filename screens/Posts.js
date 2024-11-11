@@ -1,38 +1,40 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, View, Image, Text, StyleSheet } from "react-native";
 import { Card, Avatar, Icon } from "@rneui/themed";
-
-const posts = [
-  {
-    id: 1,
-    userName: "john_doe",
-    userAvatar: "https://randomuser.me/api/portraits/men/1.jpg",
-    image: "https://placekitten.com/600/400",
-    description: "A beautiful day with this lovely kitten!",
-  },
-  {
-    id: 2,
-    userName: "jane_smith",
-    userAvatar: "https://randomuser.me/api/portraits/women/2.jpg",
-    image: "https://placekitten.com/600/401",
-    description: "Chilling with my furry friend 🐾",
-  },
-];
+import { collection, onSnapshot } from "firebase/firestore";
+import { database } from "../Firebase/firebaseSetup";
 
 export default function Posts() {
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    // Subscribe to Posts collection
+    const unsubscribePosts = onSnapshot(
+      collection(database, "Posts"),
+      (querySnapshot) => {
+        const updatedItems = querySnapshot.docs.map((snapDoc) => ({
+          ...snapDoc.data(),
+          id: snapDoc.id, // Adding document ID
+        }));
+        setPosts(updatedItems);
+      }
+    );
+    return () => unsubscribePosts();
+  }, []);
+
   return (
     <ScrollView>
       {posts.map((post) => (
         <Card key={post.id} containerStyle={styles.card}>
           <View style={styles.header}>
-            <Avatar rounded source={{ uri: post.userAvatar }} />
+            {post.userAvatar && (
+              <Avatar rounded source={{ uri: post.userAvatar }} />
+            )}
             <Text style={styles.userName}>{post.userName}</Text>
           </View>
           <Image source={{ uri: post.image }} style={styles.postImage} />
           <View style={styles.actions}>
             <Icon name="heart-outline" type="ionicon" size={24} />
             <Icon name="chatbubble-outline" type="ionicon" size={24} />
-            <Icon name="share-social-outline" type="ionicon" size={24} />
           </View>
           <Text style={styles.description}>{post.description}</Text>
         </Card>

@@ -5,6 +5,7 @@ import {
   deleteDoc,
   getDocs,
   updateDoc,
+  setDoc,
 } from "firebase/firestore";
 import { database } from "./firebaseSetup";
 
@@ -13,6 +14,27 @@ export async function writeToDB(data, collectionName) {
     const docRef = await addDoc(collection(database, collectionName), data);
   } catch (err) {
     console.log(err);
+  }
+}
+
+export async function writeToDBWithId(id, data, collectionName) {
+  try {
+    const docRef = doc(database, collectionName, id);
+    await setDoc(docRef, data);
+    // console.log("Document written with ID: ", id);
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+export async function updateDB(id, data, collectionName) {
+  try {
+    const docRef = doc(database, collectionName, id);
+    await updateDoc(docRef, data);
+  } catch (err) {
+    console.log(err);
+    throw err;
   }
 }
 

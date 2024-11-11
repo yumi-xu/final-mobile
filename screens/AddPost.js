@@ -8,10 +8,13 @@ import {
 } from "react-native";
 import { Button, Icon } from "@rneui/themed";
 import * as ImagePicker from "expo-image-picker";
+import { useMyUserInfo } from "../Components/Me/useMyUserInfo";
+import { writeToDB } from "../Firebase/firestoreHelper";
 
-export default function AddPost() {
+export default function AddPost({ navigation }) {
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
+  const userInfo = useMyUserInfo();
 
   const pickImage = async () => {
     // Request permission to access the media library
@@ -37,10 +40,19 @@ export default function AddPost() {
 
   const handlePost = () => {
     if (description && image) {
+      console.log(userInfo);
+      const newPost = {
+        image,
+        description,
+        userId: userInfo.id,
+        userName: userInfo.name,
+        userAvatar: userInfo.avatar,
+      };
+      writeToDB(newPost, "Posts");
       alert("Post submitted!");
-      // Add logic to submit the post to a server or backend service
       setDescription("");
       setImage(null);
+      navigation.goBack();
     } else {
       alert("Please select an image and enter a description.");
     }

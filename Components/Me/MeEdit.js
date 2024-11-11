@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Text, TextInput, Alert, StyleSheet, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useMyUserInfo } from "./useMyUserInfo";
-import { useUpdateUserInfo } from "./useUpdateUserInfo";
 import { Avatar, Button, Card, Dialog } from "@rneui/themed";
 import { validateUserInfo } from "./validateUserInfo";
 import { GenderInput } from "./GenderInput";
+import { useLoginUserId } from "../UserContext";
+import { updateDB } from "../../Firebase/firestoreHelper";
 
 export default function MeEdit() {
   const navigation = useNavigation();
@@ -22,7 +23,7 @@ export default function MeEdit() {
 
   const [loading, setLoading] = useState(false);
 
-  const updateUserInfo = useUpdateUserInfo();
+  const userId = useLoginUserId();
 
   useEffect(() => {
     setName(initialUserInfo.name);
@@ -59,7 +60,7 @@ export default function MeEdit() {
     }
     setLoading(true);
     try {
-      await updateUserInfo(userInfo);
+      await updateDB(userId, userInfo, "users");
       Alert.alert("Success", "Profile updated successfully!");
       navigation.navigate("Me");
     } catch (error) {
@@ -122,7 +123,7 @@ export default function MeEdit() {
         </Card>
       </ScrollView>
       <Dialog visible={loading}>
-        <Dialog.Loading loadingProps={{ size: "large" }} />
+        <Text>Loading</Text>
       </Dialog>
     </>
   );
