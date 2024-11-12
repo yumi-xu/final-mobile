@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import { Card } from "@rneui/themed";
 import MapView, { Marker } from "react-native-maps";
-import { collection, onSnapshot } from "firebase/firestore";
-import { database } from "../Firebase/firebaseSetup";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { auth, database } from "../Firebase/firebaseSetup";
 import { useNavigation } from "@react-navigation/native";
 
 const events = [
@@ -32,19 +32,33 @@ const events = [
   // Add more event objects as needed
 ];
 
-export default function EventScreen() {
+export default function EventScreen({ isFetchAll }) {
   const navigation = useNavigation();
   const [events, setEvents] = useState([]);
+  const fetchEvents = () => {
+    // Define the query based on `isFetchAll`
+    const eventsQuery = isFetchAll
+      ? collection(database, "Events")
+      : query(
+          collection(database, "Events"),
+          where("owner", "==", auth.currentUser.uid)
+        );
+
+    return eventsQuery;
+  };
   useEffect(() => {
     // Subscribe to Events collection
     const unsubscribeEvents = onSnapshot(
-      collection(database, "Events"),
+      fetchEvents(isFetchAll),
       (querySnapshot) => {
         const updatedItems = querySnapshot.docs.map((snapDoc) => ({
           ...snapDoc.data(),
-          id: snapDoc.id, // Adding document ID
+          id: snapDoc.id,
         }));
-        setEvents(updatedItems);
+        setEvents(updatedItems); // Update state with fetched items
+      },
+      (error) => {
+        console.error("Error fetching events:", error); // Log errors if any
       }
     );
     return () => unsubscribeEvents();

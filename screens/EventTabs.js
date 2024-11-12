@@ -12,8 +12,8 @@ export default function EventTabs({ navigation }) {
   ]);
 
   const renderScene = SceneMap({
-    events: EventScreen,
-    myEvents: EventScreen,
+    events: () => <EventScreen isFetchAll={true} />,
+    myEvents: () => <EventScreen isFetchAll={false} />,
   });
 
   return (
