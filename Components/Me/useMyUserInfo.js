@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
 import { database } from "../../Firebase/firebaseSetup";
 import { useLoginUserId } from "../UserContext";
+import { DEFAULT_AVATAR } from "../helper";
 
 export const useMyUserInfo = () => {
+  const userId = useLoginUserId();
   const [userInfo, setUserInfo] = useState({
     id: userId,
     name: "",
@@ -15,9 +17,6 @@ export const useMyUserInfo = () => {
     address: "",
     description: "",
   });
-
-  const userId = useLoginUserId();
-
   useEffect(() => {
     if (!userId) {
       return;
@@ -27,13 +26,12 @@ export const useMyUserInfo = () => {
       (docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data();
-          console.log("read data is", data);
           setUserInfo({
             id: userId,
             name: data.name || "",
             age: data.age || "",
             sex: data.sex || "",
-            avatar: data.avatar || "",
+            avatar: data.avatar || DEFAULT_AVATAR,
             email: data.email || "",
             phone: data.phone || "",
             address: data.address || "",
