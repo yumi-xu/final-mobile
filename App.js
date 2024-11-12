@@ -9,7 +9,6 @@ import MeEdit from "./Components/Me/MeEdit";
 import Posts from "./screens/Posts";
 import AddPost from "./screens/AddPost";
 import { Button, Icon } from "@rneui/base";
-import Events from "./screens/Events";
 import EventDetail from "./screens/EventDetail";
 import AddEditEvent from "./screens/AddOrEditEvent";
 import Signup from "./Components/Signup";
@@ -17,6 +16,7 @@ import Login from "./Components/Login";
 import { TouchableOpacity } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { LoginUserIdProvider } from "./Components/UserContext";
+import EventTabs from "./screens/EventTabs";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -70,7 +70,7 @@ export default function App() {
         />
         <Tab.Screen
           name="Event"
-          component={Events}
+          component={EventTabs}
           options={({ navigation, route }) => ({
             headerRight: () => (
               <TouchableOpacity

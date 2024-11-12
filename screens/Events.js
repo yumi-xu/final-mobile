@@ -10,6 +10,7 @@ import { Card } from "@rneui/themed";
 import MapView, { Marker } from "react-native-maps";
 import { collection, onSnapshot } from "firebase/firestore";
 import { database } from "../Firebase/firebaseSetup";
+import { useNavigation } from "@react-navigation/native";
 
 const events = [
   {
@@ -31,7 +32,8 @@ const events = [
   // Add more event objects as needed
 ];
 
-export default function EventScreen({ navigation }) {
+export default function EventScreen() {
+  const navigation = useNavigation();
   const [events, setEvents] = useState([]);
   useEffect(() => {
     // Subscribe to Events collection
