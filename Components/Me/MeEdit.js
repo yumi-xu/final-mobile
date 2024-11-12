@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Text, TextInput, Alert, StyleSheet, ScrollView } from "react-native";
+import {
+  Text,
+  TextInput,
+  Alert,
+  StyleSheet,
+  ScrollView,
+  View,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useMyUserInfo } from "./useMyUserInfo";
 import { Button, Card, Dialog } from "@rneui/themed";
@@ -36,6 +43,24 @@ export default function MeEdit() {
     setAddress(initialUserInfo.address);
     setDescription(initialUserInfo.description);
   }, [initialUserInfo]);
+
+  const handleCancel = () => {
+    Alert.alert(
+      "Discard Changes",
+      "Are you sure you want to discard the changes?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Discard",
+          style: "destructive",
+          onPress: () => navigation.goBack(),
+        },
+      ],
+    );
+  };
 
   const handleUpdateProfile = async () => {
     const userInfo = {
@@ -112,8 +137,18 @@ export default function MeEdit() {
             onChangeText={setDescription}
             style={styles.input}
           />
-
-          <Button title="Submit" onPress={handleUpdateProfile} />
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Cancel"
+              onPress={handleCancel}
+              buttonStyle={styles.button}
+            />
+            <Button
+              title="Submit"
+              onPress={handleUpdateProfile}
+              buttonStyle={styles.button}
+            />
+          </View>
         </Card>
       </ScrollView>
       <Dialog visible={loading}>
@@ -135,5 +170,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 15,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 20,
+  },
+  button: {
+    flex: 1, // make the button take up equal space
+    marginHorizontal: 5, // add some spacing between buttons
   },
 });
