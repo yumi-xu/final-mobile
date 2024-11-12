@@ -1,19 +1,20 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { Alert, View, StyleSheet, ScrollView } from "react-native";
 import { Input, Button, Text, Switch } from "@rneui/themed";
 import MapView, { Marker } from "react-native-maps";
 import Geocoder from "react-native-geocoding";
 import DatePicker from "../Components/Datepicker";
-import { writeToDB } from "../Firebase/firestoreHelper";
+import { updateDB, writeToDB } from "../Firebase/firestoreHelper";
 
 Geocoder.init(process.env.EXPO_PUBLIC_GOOGLE_MAP_APIKEY);
 export default function AddEditEvent({ route, navigation }) {
-  const isEditMode = route.params?.event !== undefined;
-  const initialEvent = route.params?.event || {
+  const event = route.params?.event;
+  const isEditMode = event !== undefined;
+  const initialEvent = event || {
     title: "",
     location: "",
     description: "",
-    dateTime: new Date(),
+    dateTime: "",
     coordinates: { latitude: 49.2827, longitude: -123.1207 },
   };
 
@@ -32,8 +33,26 @@ export default function AddEditEvent({ route, navigation }) {
       dateTime: dateTime.toDateString(),
       coordinates,
     };
-    writeToDB(newEvent, "Events");
-    navigation.goBack();
+    if (!isEditMode) {
+      writeToDB(newEvent, "Events");
+      navigation.goBack();
+      return;
+    }
+    Alert.alert(
+      "Important",
+      "Are you sure you want to save these changes?",
+      [
+        { text: "No" },
+        {
+          text: "Yes",
+          onPress: () => {
+            updateDB(event.id, newEvent, "Events");
+            navigation.goBack();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   const handleDateChange = (date) => {
@@ -72,7 +91,7 @@ export default function AddEditEvent({ route, navigation }) {
         containerStyle={styles.innerInputContainer}
       />
       <Text style={styles.label}>Date and Time *</Text>
-      <DatePicker date={dateTime} onDateChange={handleDateChange} />
+      <DatePicker date={new Date(dateTime)} onDateChange={handleDateChange} />
       <Text style={styles.label}>Selected Location *</Text>
       <Text style={styles.locText}>{location}</Text>
       <MapView

@@ -49,7 +49,9 @@ export default function EventDetail({ route, navigation }) {
         <View style={styles.buttonContainer}>
           <Button
             title="Edit"
-            onPress={() => navigation.navigate("EditEvent", { event: event })} // Navigate to edit screen
+            onPress={() =>
+              navigation.navigate("AddEditEvent", { event: event })
+            }
           />
           <Button
             title="Delete"
