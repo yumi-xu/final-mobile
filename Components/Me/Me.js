@@ -1,11 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Avatar, Button, Card, Icon } from "@rneui/themed";
-import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import { useMyUserInfo } from "./useMyUserInfo";
 import { MyPosts } from "./MyPosts";
-import { MyEvents } from "./MyEvents";
 
 export default function Me() {
   const navigation = useNavigation();
@@ -31,7 +29,6 @@ export default function Me() {
       </Card>
 
       <MyPosts />
-      <MyEvents />
     </ScrollView>
   );
 }
