@@ -4,6 +4,7 @@ import { Input, Button, Text, Switch } from "@rneui/themed";
 import MapView, { Marker } from "react-native-maps";
 import Geocoder from "react-native-geocoding";
 import DatePicker from "../Components/Datepicker";
+import { writeToDB } from "../Firebase/firestoreHelper";
 
 Geocoder.init(process.env.EXPO_PUBLIC_GOOGLE_MAP_APIKEY);
 export default function AddEditEvent({ route, navigation }) {
@@ -28,10 +29,10 @@ export default function AddEditEvent({ route, navigation }) {
       title,
       location,
       description,
-      dateTime,
-      coordinates: initialEvent.coordinates,
+      dateTime: dateTime.toDateString(),
+      coordinates,
     };
-
+    writeToDB(newEvent, "Events");
     navigation.goBack();
   };
 
