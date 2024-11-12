@@ -49,7 +49,7 @@ export default function AddEditEvent({ route, navigation }) {
           text: "Yes",
           onPress: () => {
             updateDB(event.id, newEvent, "Events");
-            navigation.goBack();
+            navigation.navigate("EventDetails", { event: newEvent });
           },
         },
       ],
