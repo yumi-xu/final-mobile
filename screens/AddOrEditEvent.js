@@ -14,14 +14,14 @@ export default function AddEditEvent({ route, navigation }) {
     title: "",
     location: "",
     description: "",
-    dateTime: "",
+    dateTime: new Date(),
     coordinates: { latitude: 49.2827, longitude: -123.1207 },
   };
 
   const [title, setTitle] = useState(initialEvent.title);
   const [location, setLocation] = useState(initialEvent.location);
   const [description, setDescription] = useState(initialEvent.description);
-  const [dateTime, setDateTime] = useState(initialEvent.dateTime);
+  const [dateTime, setDateTime] = useState(new Date(initialEvent.dateTime));
   const [reminder, setReminder] = useState(false);
   const [coordinates, setCoordinates] = useState(initialEvent.coordinates);
 
@@ -91,7 +91,7 @@ export default function AddEditEvent({ route, navigation }) {
         containerStyle={styles.innerInputContainer}
       />
       <Text style={styles.label}>Date and Time *</Text>
-      <DatePicker date={new Date(dateTime)} onDateChange={handleDateChange} />
+      <DatePicker date={dateTime} onDateChange={handleDateChange} />
       <Text style={styles.label}>Selected Location *</Text>
       <Text style={styles.locText}>{location}</Text>
       <MapView
