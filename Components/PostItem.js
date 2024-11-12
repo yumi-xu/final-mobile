@@ -1,17 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Card, Avatar, Icon } from "@rneui/themed";
-import { collection, onSnapshot } from "firebase/firestore";
-import { database } from "../Firebase/firebaseSetup";
+import { updateDB } from "../Firebase/firestoreHelper";
+import { useLoginUserId } from "./UserContext";
 
 export default function PostItem({ item: post }) {
+  const [favoriteCount, setFavoriteCount] = useState(post.favoriteCount);
   const [isFavorited, setIsFavorited] = useState(false);
-  const [favoriteCount, setFavoriteCount] = useState(0);
 
+  const { userId, userInfo } = useLoginUserId();
+
+  useEffect(() => {
+    if (userInfo?.favoritePosts?.includes(post.id)) {
+      setIsFavorited(true);
+    } else {
+      setIsFavorited(false);
+    }
+  }, [userInfo, post.id]);
   // Toggle favorite status and update count
   const toggleFavorite = () => {
+    const newFavoriteCount = isFavorited
+      ? favoriteCount - 1
+      : favoriteCount + 1;
+    const updatedFavoritePosts = isFavorited
+      ? userInfo.favoritePosts.filter((id) => id !== post.id) // Remove post.id if it's already in favorites
+      : [...(userInfo.favoritePosts ?? []), post.id];
     setIsFavorited(!isFavorited);
-    setFavoriteCount((prevCount) => prevCount + (isFavorited ? -1 : 1));
+    setFavoriteCount(newFavoriteCount);
+    updateDB(post.id, { favoriteCount: newFavoriteCount }, "Posts");
+    updateDB(userId, { favoritePosts: updatedFavoritePosts }, "users");
   };
   return (
     <Card containerStyle={styles.card}>
@@ -33,7 +50,9 @@ export default function PostItem({ item: post }) {
             size={24}
             color={isFavorited ? "red" : "black"}
           />
-          <Text style={styles.favoriteCount}>{favoriteCount}</Text>
+          {isFavorited && (
+            <Text style={styles.favoriteCount}>{favoriteCount || 0}</Text>
+          )}
         </TouchableOpacity>
         <Icon name="chatbubble-outline" type="ionicon" size={24} />
       </View>

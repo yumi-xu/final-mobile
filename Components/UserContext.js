@@ -14,7 +14,7 @@ export const LoginUserIdProvider = ({ userId, children }) => {
           ...snapDoc.data(),
           id: snapDoc.id, // Adding document ID
         }));
-        setUserInfo(updatedItems);
+        setUserInfo(updatedItems[0]);
       }
     );
     return () => unsubscribeuserInfo();
