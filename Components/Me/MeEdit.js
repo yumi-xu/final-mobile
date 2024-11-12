@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Text, TextInput, Alert, StyleSheet, ScrollView } from "react-native";
+import {
+  Text,
+  TextInput,
+  Alert,
+  StyleSheet,
+  ScrollView,
+  View,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useMyUserInfo } from "./useMyUserInfo";
-import { Avatar, Button, Card, Dialog } from "@rneui/themed";
+import { Button, Card, Dialog } from "@rneui/themed";
 import { validateUserInfo } from "./validateUserInfo";
 import { GenderInput } from "./GenderInput";
 import { useLoginUserId } from "../UserContext";
 import { updateDB } from "../../Firebase/firestoreHelper";
+import { AvatarEdit } from "./AvatarEdit";
 
 export default function MeEdit() {
   const navigation = useNavigation();
@@ -36,6 +44,24 @@ export default function MeEdit() {
     setDescription(initialUserInfo.description);
   }, [initialUserInfo]);
 
+  const handleCancel = () => {
+    Alert.alert(
+      "Discard Changes",
+      "Are you sure you want to discard the changes?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Discard",
+          style: "destructive",
+          onPress: () => navigation.goBack(),
+        },
+      ],
+    );
+  };
+
   const handleUpdateProfile = async () => {
     const userInfo = {
       name,
@@ -47,7 +73,6 @@ export default function MeEdit() {
       address,
       description,
     };
-    console.log("UserInfo before update:", userInfo);
 
     const errors = validateUserInfo(userInfo);
     if (errors.length) {
@@ -74,13 +99,7 @@ export default function MeEdit() {
       <ScrollView>
         <Card>
           <Text style={styles.label}>Avatar</Text>
-          <Avatar
-            rounded
-            source={{
-              // TODO: DEFAULT AVATAR
-              uri: avatar || "https://randomuser.me/api/portraits/men/1.jpg",
-            }}
-          />
+          <AvatarEdit avatar={avatar} onChange={setAvatar} />
 
           <Text style={styles.label}>Name</Text>
           <TextInput value={name} onChangeText={setName} style={styles.input} />
@@ -118,8 +137,18 @@ export default function MeEdit() {
             onChangeText={setDescription}
             style={styles.input}
           />
-
-          <Button title="Submit" onPress={handleUpdateProfile} />
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Cancel"
+              onPress={handleCancel}
+              buttonStyle={styles.button}
+            />
+            <Button
+              title="Submit"
+              onPress={handleUpdateProfile}
+              buttonStyle={styles.button}
+            />
+          </View>
         </Card>
       </ScrollView>
       <Dialog visible={loading}>
@@ -141,5 +170,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 15,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 20,
+  },
+  button: {
+    flex: 1, // make the button take up equal space
+    marginHorizontal: 5, // add some spacing between buttons
   },
 });
