@@ -5,6 +5,7 @@ import MapView, { Marker } from "react-native-maps";
 import Geocoder from "react-native-geocoding";
 import DatePicker from "../Components/Datepicker";
 import { updateDB, writeToDB } from "../Firebase/firestoreHelper";
+import { auth } from "../Firebase/firebaseSetup";
 
 Geocoder.init(process.env.EXPO_PUBLIC_GOOGLE_MAP_APIKEY);
 export default function AddEditEvent({ route, navigation }) {
@@ -32,6 +33,7 @@ export default function AddEditEvent({ route, navigation }) {
       description,
       dateTime: dateTime.toDateString(),
       coordinates,
+      owner: auth.currentUser.uid,
     };
     if (!isEditMode) {
       writeToDB(newEvent, "Events");
