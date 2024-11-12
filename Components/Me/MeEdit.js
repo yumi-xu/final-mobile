@@ -31,7 +31,7 @@ export default function MeEdit() {
 
   const [loading, setLoading] = useState(false);
 
-  const userId = useLoginUserId();
+  const { userId } = useLoginUserId();
 
   useEffect(() => {
     setName(initialUserInfo.name);
@@ -58,7 +58,7 @@ export default function MeEdit() {
           style: "destructive",
           onPress: () => navigation.goBack(),
         },
-      ],
+      ]
     );
   };
 

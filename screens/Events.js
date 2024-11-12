@@ -12,26 +12,6 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { auth, database } from "../Firebase/firebaseSetup";
 import { useNavigation } from "@react-navigation/native";
 
-const events = [
-  {
-    id: 1,
-    title: "Event1A",
-    dateTime: "Mon Apr 22 2024 17:30",
-    location: "Google Building 40, Mountain View, CA",
-    coordinates: { latitude: 37.422, longitude: -122.084 },
-    description: "settle down",
-  },
-  {
-    id: 2,
-    title: "Test2",
-    dateTime: "Tue Apr 23 2024 21:21",
-    location: "San Francisco–Oakland Bay Bridge, San Francisco, CA",
-    coordinates: { latitude: 37.798, longitude: -122.377 },
-    description: "testtestest",
-  },
-  // Add more event objects as needed
-];
-
 export default function EventScreen({ isFetchAll }) {
   const navigation = useNavigation();
   const [events, setEvents] = useState([]);
@@ -106,7 +86,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     padding: 0,
     marginBottom: 20,
-    backgroundColor: "#2a2a4f",
   },
   mapContainer: {
     position: "relative",
@@ -119,18 +98,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     margin: 10,
     marginTop: 0,
-    color: "#ccc",
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
     margin: 10,
-    color: "#fff",
   },
   location: {
     fontSize: 14,
     margin: 10,
     marginTop: 0,
-    color: "#ccc",
   },
 });

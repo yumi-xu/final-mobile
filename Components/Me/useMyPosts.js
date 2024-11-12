@@ -4,14 +4,14 @@ import { database } from "../../Firebase/firebaseSetup";
 import { useLoginUserId } from "../UserContext";
 
 export const useMyPosts = () => {
-  const myUserId = useLoginUserId();
+  const { userId: myUserId } = useLoginUserId();
 
   const [myPosts, setMyPosts] = useState([]);
 
   useEffect(() => {
     const postsQuery = query(
       collection(database, "Posts"),
-      where("userId", "==", myUserId),
+      where("userId", "==", myUserId)
     );
 
     const unsubscribePosts = onSnapshot(postsQuery, (querySnapshot) => {

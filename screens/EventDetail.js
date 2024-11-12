@@ -3,6 +3,7 @@ import { Alert, View, Text, StyleSheet } from "react-native";
 import { Button } from "@rneui/themed";
 import MapView, { Marker } from "react-native-maps";
 import { deleteFromDB } from "../Firebase/firestoreHelper";
+import { auth } from "../Firebase/firebaseSetup";
 
 export default function EventDetail({ route, navigation }) {
   const { event } = route.params;
@@ -46,19 +47,21 @@ export default function EventDetail({ route, navigation }) {
         <Text
           style={styles.description}
         >{`Description: ${event.description}`}</Text>
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Edit"
-            onPress={() =>
-              navigation.navigate("AddEditEvent", { event: event })
-            }
-          />
-          <Button
-            title="Delete"
-            color="red"
-            onPress={handleDelete} // Handle event deletion
-          />
-        </View>
+        {event.owner === auth.currentUser?.uid && (
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Edit"
+              onPress={() =>
+                navigation.navigate("AddEditEvent", { event: event })
+              }
+            />
+            <Button
+              title="Delete"
+              color="red"
+              onPress={() => handleDelete()} // Handle event deletion
+            />
+          </View>
+        )}
       </View>
     </View>
   );
