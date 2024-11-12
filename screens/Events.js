@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import {
   ScrollView,
   View,
@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { Card } from "@rneui/themed";
 import MapView, { Marker } from "react-native-maps";
+import { collection, onSnapshot } from "firebase/firestore";
+import { database } from "../Firebase/firebaseSetup";
 
 const events = [
   {
@@ -30,6 +32,22 @@ const events = [
 ];
 
 export default function EventScreen({ navigation }) {
+  const [events, setEvents] = useState([]);
+  useEffect(() => {
+    // Subscribe to Events collection
+    const unsubscribeEvents = onSnapshot(
+      collection(database, "Events"),
+      (querySnapshot) => {
+        const updatedItems = querySnapshot.docs.map((snapDoc) => ({
+          ...snapDoc.data(),
+          id: snapDoc.id, // Adding document ID
+        }));
+        setEvents(updatedItems);
+      }
+    );
+    return () => unsubscribeEvents();
+  }, []);
+
   return (
     <ScrollView style={styles.container}>
       {events.map((event) => (
