@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, Pressable } from "react-native";
+import { Text, StyleSheet, Pressable, Image } from "react-native";
 import { Card } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 
@@ -14,6 +14,7 @@ export const MyPostsItem = ({ post }) => {
     <Card containerStyle={styles.card}>
       <Pressable onPress={handleGoToPostDetail}>
         <Text style={styles.description}>{post.description}</Text>
+        <Image source={{ uri: post.image }} style={styles.postImage} />
       </Pressable>
     </Card>
   );
@@ -27,5 +28,9 @@ const styles = StyleSheet.create({
   },
   description: {
     padding: 10,
+  },
+  postImage: {
+    width: 100,
+    height: 100,
   },
 });

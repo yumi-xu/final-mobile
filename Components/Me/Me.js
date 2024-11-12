@@ -9,9 +9,7 @@ export default function Me() {
   const navigation = useNavigation();
   const userInfo = useMyUserInfo();
 
-  // TODO: DEFAULT AVATAR
-  const avatar =
-    userInfo.avatar || "https://randomuser.me/api/portraits/men/1.jpg";
+  const avatar = userInfo.avatar;
   const userName = userInfo.name;
 
   const handleEditProfile = () => {
@@ -22,8 +20,14 @@ export default function Me() {
     <ScrollView>
       <Card containerStyle={styles.card}>
         <View style={styles.header}>
-          <Avatar rounded source={{ uri: avatar }} />
-          <Text style={styles.userName}>{userName}</Text>
+          <View style={styles.left}>
+            <Avatar
+              rounded
+              containerStyle={styles.avatar}
+              source={avatar ? { uri: avatar } : null}
+            />
+            <Text style={styles.userName}>{userName}</Text>
+          </View>
           <Button onPress={handleEditProfile}>Edit Profile</Button>
         </View>
       </Card>
@@ -44,11 +48,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
   },
+  left: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
   userName: {
     marginLeft: 10,
     fontWeight: "bold",
   },
   description: {
     padding: 10,
+  },
+  avatar: {
+    width: 25,
+    height: 25,
   },
 });
