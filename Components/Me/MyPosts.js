@@ -18,7 +18,7 @@ export const MyPosts = () => {
 
 const styles = StyleSheet.create({
   card: {
-    padding: 0,
+    paddingHorizontal: 0,
     borderRadius: 10,
     overflow: "hidden",
   },
