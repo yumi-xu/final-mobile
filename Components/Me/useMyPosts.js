@@ -9,9 +9,10 @@ export const useMyPosts = () => {
   const [myPosts, setMyPosts] = useState([]);
 
   useEffect(() => {
+    //query my post from database
     const postsQuery = query(
       collection(database, "Posts"),
-      where("userId", "==", myUserId)
+      where("userId", "==", myUserId),
     );
 
     const unsubscribePosts = onSnapshot(postsQuery, (querySnapshot) => {

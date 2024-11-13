@@ -16,6 +16,7 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
+    //check login info
     if (email.length === 0 || password.length === 0) {
       Alert.alert("All fields should be provided!");
       return;

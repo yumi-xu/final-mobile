@@ -12,6 +12,7 @@ export default function Me() {
   const avatar = userInfo.avatar;
   const userName = userInfo.name;
 
+  //go to edit page
   const handleEditProfile = () => {
     navigation.navigate("MeEdit");
   };

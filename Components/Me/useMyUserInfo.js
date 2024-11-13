@@ -21,6 +21,7 @@ export const useMyUserInfo = () => {
     if (!userId) {
       return;
     }
+    //get me info from database
     const unsubscribe = onSnapshot(
       doc(database, "users", userId),
       (docSnap) => {
@@ -40,7 +41,7 @@ export const useMyUserInfo = () => {
         } else {
           console.log("No such document!");
         }
-      }
+      },
     );
     // Cleanup function to detach the listener
     return () => {
