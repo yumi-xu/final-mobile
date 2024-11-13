@@ -1,9 +1,40 @@
 Data Model
-The application utilizes Firebase Firestore to manage data, organized into three primary collections:
+1. Users Collection
+   The Users collection captures essential profile details for each user. This information includes the user’s name, age, gender, contact information, avatar, and a brief description. This structure supports user authentication and personalized experiences across the app.
 
-1.Users
-2.Posts
-3.Events
+Key Fields:
+name: The user’s full name, displayed on their profile.
+age: User’s age, useful for age-based content or filtering.
+sex: User’s gender, aiding personalization.
+avatar: URL of the user’s profile picture, displayed in various components.
+email, phone: Contact details.
+address: User’s location for context in social interactions.
+description: Short bio or description about the user.
+This model supports CRUD operations, enabling users to create, view, and edit their profiles. This data is read by various components, such as Me.js, for a consistent profile view across the app.
+
+2. Posts Collection
+   The Posts collection is designed to manage user-generated content. This includes images, descriptions, and metadata linking each post to the user who created it. The structure enables social sharing and is optimized for displaying posts in feeds or profile views.
+
+Key Fields:
+image: URL of the image associated with the post, enabling media-rich content.
+description: Text description of the post, allowing users to share thoughts or captions with their images.
+userId: The unique ID of the user who created the post, used to link posts to their respective creators.
+userName, userAvatar: Cached data for displaying the post’s author information, optimizing loading speeds in the UI.
+This collection supports the core social functionality of the app by enabling users to create, view, and delete posts. The data is accessed through components like AddPost.js, MyPosts.js, and MyPostsItem.js.
+
+3. Events Collection
+   The Events collection manages data related to events organized by users. This includes event details such as title, description, date, time, and location. The structured event information supports an event-sharing and reminder system within the app.
+
+Key Fields:
+title: Name of the event, displayed in event listings and detail views.
+description: Detailed event information, allowing attendees to understand what the event is about.
+dateTime: Date and time of the event, supporting scheduling and reminders.
+location: Descriptive location or address of the event.
+coordinates: Latitude and longitude for map display and navigation purposes.
+owner: The unique ID of the event creator, linking the event to its creator.
+The Events collection is essential for the app’s event-management feature, enabling users to organize, update, and delete events. CRUD operations are applied through helper functions (firestoreHelper.js) and are accessed in AddOrEditEvent.js.
+
+CRUD Operations Summary
 Each collection is used to store distinct data entities, with specific CRUD (Create, Read, Update, Delete) operations applied to each.
 
 Collection Details
