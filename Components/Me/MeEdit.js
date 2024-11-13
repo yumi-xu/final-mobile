@@ -58,7 +58,7 @@ export default function MeEdit() {
           style: "destructive",
           onPress: () => navigation.goBack(),
         },
-      ]
+      ],
     );
   };
 
@@ -85,10 +85,12 @@ export default function MeEdit() {
     }
     setLoading(true);
     try {
+      //update me info
       await updateDB(userId, userInfo, "users");
       Alert.alert("Success", "Profile updated successfully!");
       navigation.navigate("Me");
     } catch (error) {
+      //loading
       setLoading(false);
       Alert.alert("Failed", "Error updating profile!");
     }

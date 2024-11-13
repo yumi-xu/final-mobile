@@ -12,6 +12,7 @@ export const validateUserInfo = (userInfo) => {
 
   const errors = [];
 
+  //validate name
   if (!name) {
     errors.push("Name cannot be empty!");
   } else if (name.length < MIN_NAME_LENGTH) {
@@ -20,6 +21,7 @@ export const validateUserInfo = (userInfo) => {
     errors.push(`Name cannot be longer than ${MAX_NAME_LENGTH}!`);
   }
 
+  //validate age
   if (!age) {
     errors.push("Age cannot be empty!");
   } else {
@@ -29,30 +31,35 @@ export const validateUserInfo = (userInfo) => {
     }
   }
 
+  //validate sex
   if (!sex) {
     errors.push("Gender cannot be empty!");
   }
 
   // TODO: avatar validation if needed
 
+  //validate email
   if (!email) {
     errors.push("Email cannot be empty!");
   } else if (!EMAIL_REGEX.test(email)) {
     errors.push("Invalid email format!");
   }
 
+  //validate phone
   if (!phone) {
     errors.push("Phone cannot be empty!");
   } else if (!PHONE_REGEX.test(phone)) {
     errors.push("Invalid phone format!");
   }
 
+  //validate address
   if (!address) {
     errors.push("Address cannot be empty!");
   } else if (address.length > MAX_ADDRESS_LENGTH) {
     errors.push(`Address cannot be longer than ${MAX_ADDRESS_LENGTH}!`);
   }
 
+  //validate description
   if (!description) {
     errors.push("Description cannot be empty!");
   } else if (description.length > MAX_DESCRIPTION_LENGTH) {
