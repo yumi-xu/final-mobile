@@ -5,7 +5,7 @@ import { updateDB } from "../Firebase/firestoreHelper";
 import { useLoginUserId } from "./UserContext";
 
 export default function PostItem({ item: post }) {
-  const [favoriteCount, setFavoriteCount] = useState(post.favoriteCount);
+  const [favoriteCount, setFavoriteCount] = useState(post.favoriteCount || 0);
   const [isFavorited, setIsFavorited] = useState(false);
 
   const { userId, userInfo } = useLoginUserId();
@@ -39,7 +39,7 @@ export default function PostItem({ item: post }) {
         <Text style={styles.userName}>{post.userName}</Text>
       </View>
       <Image source={{ uri: post.image }} style={styles.postImage} />
-      <View style={styles.actions}>
+      {/* <View style={styles.actions}>
         <TouchableOpacity
           onPress={toggleFavorite}
           style={styles.favoriteContainer}
@@ -51,11 +51,11 @@ export default function PostItem({ item: post }) {
             color={isFavorited ? "red" : "black"}
           />
           {isFavorited && (
-            <Text style={styles.favoriteCount}>{favoriteCount || 0}</Text>
+            <Text style={styles.favoriteCount}>{favoriteCount}</Text>
           )}
         </TouchableOpacity>
         <Icon name="chatbubble-outline" type="ionicon" size={24} />
-      </View>
+      </View> */}
       <Text style={styles.description}>{post.description}</Text>
     </Card>
   );
