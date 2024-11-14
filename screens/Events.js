@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import {
   ScrollView,
-  View,
   StyleSheet,
   Text,
   TouchableOpacity,
 } from "react-native";
 import { Card } from "@rneui/themed";
-import MapView, { Marker } from "react-native-maps";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { auth, database } from "../Firebase/firebaseSetup";
 import { useNavigation } from "@react-navigation/native";
@@ -52,21 +50,6 @@ export default function EventScreen({ isFetchAll }) {
           onPress={() => navigation.navigate("EventDetails", { event })}
         >
           <Card key={event.id} containerStyle={styles.card}>
-            <View style={styles.mapContainer}>
-              <MapView
-                style={styles.map}
-                initialRegion={{
-                  latitude: event.coordinates.latitude,
-                  longitude: event.coordinates.longitude,
-                  latitudeDelta: 0.01,
-                  longitudeDelta: 0.01,
-                }}
-                scrollEnabled={false}
-                zoomEnabled={false}
-              >
-                <Marker coordinate={event.coordinates} />
-              </MapView>
-            </View>
             <Text style={styles.title}>{event.title}</Text>
             <Text style={styles.location}>{`Location: ${event.location}`}</Text>
             <Text style={styles.dateTime}>{event.dateTime}</Text>
