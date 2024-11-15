@@ -16,7 +16,7 @@ import Login from "./Components/Login";
 import { TouchableOpacity } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { LoginUserIdProvider } from "./Components/UserContext";
-import EventTabs from "./screens/EventTabs";
+import EventScreen from "./screens/Events";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -69,7 +69,7 @@ export default function App() {
         />
         <Tab.Screen
           name="Event"
-          component={EventTabs}
+          component={EventScreen}
           options={({ navigation, route }) => ({
             headerRight: () => (
               <TouchableOpacity
