@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Button, Icon } from "@rneui/themed";
-import * as ImagePicker from "expo-image-picker";
 import { useMyUserInfo } from "../Components/Me/useMyUserInfo";
 import { writeToDB } from "../Firebase/firestoreHelper";
+import { takeImage } from "../Components/ImageManager";
 
 export default function AddPost({ navigation }) {
   const [image, setImage] = useState(null);
@@ -17,25 +17,8 @@ export default function AddPost({ navigation }) {
   const userInfo = useMyUserInfo();
 
   const pickImage = async () => {
-    // Request permission to access the media library
-    let permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!permissionResult.granted) {
-      alert("Permission to access the media library is required!");
-      return;
-    }
-
-    // Pick an image from the library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
+    const uri = await takeImage();
+    setImage(uri);
   };
 
   const handlePost = () => {
