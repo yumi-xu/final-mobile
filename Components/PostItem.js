@@ -17,6 +17,7 @@ export default function PostItem({ item: post }) {
       setIsFavorited(false);
     }
   }, [userInfo, post.id]);
+
   // Toggle favorite status and update count
   const toggleFavorite = () => {
     const newFavoriteCount = isFavorited
@@ -37,9 +38,6 @@ export default function PostItem({ item: post }) {
           <Avatar rounded source={{ uri: post.userAvatar }} />
         )}
         <Text style={styles.userName}>{post.userName}</Text>
-      </View>
-      <Image source={{ uri: post.image }} style={styles.postImage} />
-      <View style={styles.actions}>
         <TouchableOpacity
           onPress={toggleFavorite}
           style={styles.favoriteContainer}
@@ -54,8 +52,8 @@ export default function PostItem({ item: post }) {
             <Text style={styles.favoriteCount}>{favoriteCount}</Text>
           )}
         </TouchableOpacity>
-        <Icon name="chatbubble-outline" type="ionicon" size={24} />
       </View>
+      <Image source={{ uri: post.image }} style={styles.postImage} />
       <Text style={styles.description}>{post.description}</Text>
     </Card>
   );
@@ -71,19 +69,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
+    justifyContent: "space-between",
   },
   userName: {
     marginLeft: 10,
     fontWeight: "bold",
+    flex: 1,
+  },
+  favoriteContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  favoriteCount: {
+    marginLeft: 5,
+    color: "gray",
   },
   postImage: {
     width: "100%",
     height: 300,
-  },
-  actions: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginVertical: 10,
   },
   description: {
     padding: 10,
