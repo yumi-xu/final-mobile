@@ -3,20 +3,37 @@ import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Card, Avatar, Icon } from "@rneui/themed";
 import { updateDB } from "../Firebase/firestoreHelper";
 import { useMyUserInfo } from "./Me/useMyUserInfo";
+import { downloadImage } from "./ImageManager";
 
 export default function PostItem({ item: post }) {
   const [favoriteCount, setFavoriteCount] = useState(post.favoriteCount || 0);
   const [isFavorited, setIsFavorited] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
 
   const userInfo = useMyUserInfo();
 
   useEffect(() => {
-    if (userInfo?.favoritePosts?.includes(post.id)) {
+    if (userInfo.favoritePosts.includes(post.id)) {
       setIsFavorited(true);
     } else {
       setIsFavorited(false);
     }
-  }, [userInfo, post.id]);
+  }, [post.id]);
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const image = await downloadImage(post.imageUrl); // Wait for the image to download
+        setImageUrl(image); // Set the image state once downloaded
+      } catch (error) {
+        console.error("Error downloading image:", error); // Handle any errors
+      }
+    };
+
+    if (post.imageUrl) {
+      fetchImage();
+    }
+  }, [post.imageUrl]);
 
   // Toggle favorite status and update count
   const toggleFavorite = () => {
@@ -53,7 +70,7 @@ export default function PostItem({ item: post }) {
           )}
         </TouchableOpacity>
       </View>
-      <Image source={{ uri: post.image }} style={styles.postImage} />
+      <Image source={{ uri: imageUrl }} style={styles.postImage} />
       <Text style={styles.description}>{post.description}</Text>
     </Card>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   TextInput,
@@ -9,7 +9,7 @@ import {
 import { Button, Icon } from "@rneui/themed";
 import { useMyUserInfo } from "../Components/Me/useMyUserInfo";
 import { writeToDB } from "../Firebase/firestoreHelper";
-import { takeImage } from "../Components/ImageManager";
+import { takeImage, uploadImage } from "../Components/ImageManager";
 
 export default function AddPost({ navigation }) {
   const [image, setImage] = useState(null);
@@ -21,10 +21,11 @@ export default function AddPost({ navigation }) {
     setImage(uri);
   };
 
-  const handlePost = () => {
+  const handlePost = async () => {
     if (description && image) {
+      const path = await uploadImage(image);
       const newPost = {
-        image,
+        imageUrl: path,
         description,
         userId: userInfo.id,
         userName: userInfo.name,

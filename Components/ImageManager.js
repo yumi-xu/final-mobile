@@ -1,5 +1,7 @@
 import * as ImagePicker from "expo-image-picker";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Alert } from "react-native";
+import { storage } from "../Firebase/firebaseSetup";
 
 export async function verifyPermission() {
   const { granted } = await ImagePicker.getCameraPermissionsAsync();
@@ -27,11 +29,38 @@ export async function takeImage() {
     });
 
     if (!result.canceled) {
-      return result.assets[0].uri; // Return the image URI
+      const fileUri = result.assets[0].uri; // Return the image URI
+      return fileUri;
     }
     return null;
   } catch (error) {
     console.error("Error taking image:", error);
     return null;
+  }
+}
+
+export async function uploadImage(uri) {
+  try {
+    const response = await fetch(uri);
+    if (!response.ok) {
+      throw Error(`An error happened`, response.status);
+    }
+    const blob = await response.blob();
+    const imageName = uri.substring(uri.lastIndexOf("/") + 1);
+    const imageRef = ref(storage, `images/${imageName}`);
+    const uploadResult = await uploadBytesResumable(imageRef, blob);
+    return uploadResult.metadata.fullPath;
+  } catch (err) {
+    console.error("Error Upload image:", error);
+  }
+}
+
+export async function downloadImage(uri) {
+  try {
+    const reference = ref(storage, uri);
+    const url = await getDownloadURL(reference);
+    return url;
+  } catch (error) {
+    console.error("Error download image URL:", error);
   }
 }
