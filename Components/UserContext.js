@@ -1,26 +1,9 @@
-import React, { createContext, useEffect, useContext, useState } from "react";
-import { collection, onSnapshot } from "firebase/firestore";
-import { database } from "../Firebase/firebaseSetup";
+import React, { createContext,useContext} from "react";
 const LoginUserIdContext = createContext("");
 
 export const LoginUserIdProvider = ({ userId, children }) => {
-  const [userInfo, setUserInfo] = useState([]);
-  useEffect(() => {
-    // Subscribe to userInfo collection
-    const unsubscribeuserInfo = onSnapshot(
-      collection(database, "users"),
-      (querySnapshot) => {
-        const updatedItems = querySnapshot.docs.map((snapDoc) => ({
-          ...snapDoc.data(),
-          id: snapDoc.id, // Adding document ID
-        }));
-        setUserInfo(updatedItems[0]);
-      }
-    );
-    return () => unsubscribeuserInfo();
-  }, []);
   return (
-    <LoginUserIdContext.Provider value={{ userInfo, userId }}>
+    <LoginUserIdContext.Provider value={userId}>
       {children}
     </LoginUserIdContext.Provider>
   );

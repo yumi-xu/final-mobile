@@ -5,7 +5,7 @@ import { useLoginUserId } from "../UserContext";
 import { DEFAULT_AVATAR } from "../helper";
 
 export const useMyUserInfo = () => {
-  const { userId } = useLoginUserId();
+  const userId = useLoginUserId();
   const [userInfo, setUserInfo] = useState({
     id: userId,
     name: "",
@@ -16,6 +16,7 @@ export const useMyUserInfo = () => {
     phone: "",
     address: "",
     description: "",
+    favoritePosts: [],
   });
   useEffect(() => {
     if (!userId) {
@@ -37,11 +38,12 @@ export const useMyUserInfo = () => {
             phone: data.phone || "",
             address: data.address || "",
             description: data.description || "",
+            favoritePosts: data.favoritePosts || [],
           });
         } else {
           console.log("No such document!");
         }
-      },
+      }
     );
     // Cleanup function to detach the listener
     return () => {

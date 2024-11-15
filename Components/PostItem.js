@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Card, Avatar, Icon } from "@rneui/themed";
 import { updateDB } from "../Firebase/firestoreHelper";
-import { useLoginUserId } from "./UserContext";
+import { useMyUserInfo } from "./Me/useMyUserInfo";
 
 export default function PostItem({ item: post }) {
   const [favoriteCount, setFavoriteCount] = useState(post.favoriteCount || 0);
   const [isFavorited, setIsFavorited] = useState(false);
 
-  const { userId, userInfo } = useLoginUserId();
+  const userInfo = useMyUserInfo();
 
   useEffect(() => {
     if (userInfo?.favoritePosts?.includes(post.id)) {
@@ -28,7 +28,7 @@ export default function PostItem({ item: post }) {
     setIsFavorited(!isFavorited);
     setFavoriteCount(newFavoriteCount);
     updateDB(post.id, { favoriteCount: newFavoriteCount }, "Posts");
-    updateDB(userId, { favoritePosts: updatedFavoritePosts }, "users");
+    updateDB(userInfo.id, { favoritePosts: updatedFavoritePosts }, "users");
   };
   return (
     <Card containerStyle={styles.card}>
@@ -39,7 +39,7 @@ export default function PostItem({ item: post }) {
         <Text style={styles.userName}>{post.userName}</Text>
       </View>
       <Image source={{ uri: post.image }} style={styles.postImage} />
-      {/* <View style={styles.actions}>
+      <View style={styles.actions}>
         <TouchableOpacity
           onPress={toggleFavorite}
           style={styles.favoriteContainer}
@@ -55,7 +55,7 @@ export default function PostItem({ item: post }) {
           )}
         </TouchableOpacity>
         <Icon name="chatbubble-outline" type="ionicon" size={24} />
-      </View> */}
+      </View>
       <Text style={styles.description}>{post.description}</Text>
     </Card>
   );
