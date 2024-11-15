@@ -7,12 +7,12 @@ import {
   View,
 } from "react-native";
 import { Card, SearchBar } from "@rneui/themed";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import { auth, database } from "../Firebase/firebaseSetup";
 import { useNavigation } from "@react-navigation/native";
 import { Dropdown } from "react-native-element-dropdown";
 const sortOptions = [
-  { label: "Name", value: "name" },
+  { label: "Title", value: "title" },
   { label: "Date", value: "date" },
 ];
 
@@ -20,7 +20,9 @@ export default function EventScreen() {
   const navigation = useNavigation();
   const [events, setEvents] = useState([]);
   const [search, setSearch] = useState("");
-  const [sortOption, setSortOption] = useState("name");
+  const [sortOption, setSortOption] = useState(null);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+
   useEffect(() => {
     // Subscribe to Events collection
     const unsubscribeEvents = onSnapshot(
@@ -39,6 +41,31 @@ export default function EventScreen() {
     return () => unsubscribeEvents();
   }, []);
 
+  // Filter and sort events based on search and sort option
+  useEffect(() => {
+    let updatedEvents = [...events];
+
+    // Filter by search text
+    if (search) {
+      updatedEvents = updatedEvents.filter((event) =>
+        event.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    // Sort by selected option
+    if (sortOption) {
+      if (sortOption === "date") {
+        updatedEvents.sort(
+          (a, b) => new Date(a.dateTime) - new Date(b.dateTime)
+        );
+      } else if (sortOption === "name") {
+        updatedEvents.sort((a, b) => a.title.localeCompare(b.title));
+      }
+    }
+
+    setFilteredEvents(updatedEvents);
+  }, [events, search, sortOption]);
+
   return (
     <ScrollView style={styles.container}>
       <SearchBar
@@ -54,7 +81,7 @@ export default function EventScreen() {
           data={sortOptions}
           labelField="label"
           valueField="value"
-          placeholder="Sort by"
+          placeholder="Default"
           value={sortOption}
           onChange={(item) => setSortOption(item.value)}
           style={styles.dropdown}
@@ -64,7 +91,7 @@ export default function EventScreen() {
         />
       </View>
       <View>
-        {events.map((event) => (
+        {filteredEvents.map((event) => (
           <TouchableOpacity
             key={event.id}
             onPress={() => navigation.navigate("EventDetails", { event })}
@@ -95,8 +122,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f0f0",
   },
   sortContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginLeft: 20,
   },
   sortLabel: {
@@ -106,7 +133,7 @@ const styles = StyleSheet.create({
   dropdown: {
     height: 30,
     borderColor: "#ccc",
-    minWidth: '30%',
+    minWidth: "30%",
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 8,
