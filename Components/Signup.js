@@ -16,28 +16,45 @@ export default function Signup({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const isPasswordStrong = (password) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    return (
+      password.length >= minLength &&
+      hasUpperCase &&
+      hasLowerCase &&
+      hasNumber &&
+      hasSpecialChar
+    );
+  };
+
   const handleSignup = async () => {
+    if (
+      email.length === 0 ||
+      password.length === 0 ||
+      confirmPassword.length === 0
+    ) {
+      Alert.alert("Error", "All fields must be filled out.");
+      return;
+    }
     if (password !== confirmPassword) {
       Alert.alert("Error", "Passwords do not match!");
       return;
     }
 
+    if (!isPasswordStrong(password)) {
+      Alert.alert(
+        "Weak Password",
+        'Password must be at least 8 characters long, and include uppercase, lowercase, numbers, and special characters. Special characters should be in "!@#$%^&*(),.?":{}|<>"',
+      );
+      return;
+    }
+
     try {
-      if (
-        email.length === 0 ||
-        password.length === 0 ||
-        confirmPassword.length === 0
-      ) {
-        Alert.alert("All fields should be provided!");
-        return;
-      }
-      if (password !== confirmPassword) {
-        Alert.alert("Error", "password and confirm password do not match!");
-        return;
-      }
-
-      //add some more regex for email
-
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -59,7 +76,6 @@ export default function Signup({ navigation }) {
         },
         "users",
       );
-
       Alert.alert("Success", "User registered successfully!");
     } catch (error) {
       Alert.alert("Error", error.message);
@@ -102,6 +118,11 @@ export default function Signup({ navigation }) {
       />
 
       <Button title="Register" onPress={handleSignup} />
+
+      <Button
+        title="Forgot Password?"
+        onPress={() => navigation.navigate("ResetPassword")}
+      />
 
       <Button
         title="Already Registered? Login"
