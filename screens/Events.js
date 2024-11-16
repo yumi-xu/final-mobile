@@ -1,35 +1,32 @@
 import { useEffect, useState } from "react";
 import {
   ScrollView,
-  View,
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from "react-native";
-import { Card } from "@rneui/themed";
-import MapView, { Marker } from "react-native-maps";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { Card, SearchBar } from "@rneui/themed";
+import { collection, onSnapshot } from "firebase/firestore";
 import { auth, database } from "../Firebase/firebaseSetup";
 import { useNavigation } from "@react-navigation/native";
+import { Dropdown } from "react-native-element-dropdown";
+const sortOptions = [
+  { label: "Title", value: "title" },
+  { label: "Date", value: "date" },
+];
 
-export default function EventScreen({ isFetchAll }) {
+export default function EventScreen() {
   const navigation = useNavigation();
   const [events, setEvents] = useState([]);
-  const fetchEvents = () => {
-    // Define the query based on `isFetchAll`
-    const eventsQuery = isFetchAll
-      ? collection(database, "Events")
-      : query(
-          collection(database, "Events"),
-          where("owner", "==", auth.currentUser.uid)
-        );
+  const [search, setSearch] = useState("");
+  const [sortOption, setSortOption] = useState(null);
+  const [filteredEvents, setFilteredEvents] = useState([]);
 
-    return eventsQuery;
-  };
   useEffect(() => {
     // Subscribe to Events collection
     const unsubscribeEvents = onSnapshot(
-      fetchEvents(isFetchAll),
+      collection(database, "Events"),
       (querySnapshot) => {
         const updatedItems = querySnapshot.docs.map((snapDoc) => ({
           ...snapDoc.data(),
@@ -44,35 +41,71 @@ export default function EventScreen({ isFetchAll }) {
     return () => unsubscribeEvents();
   }, []);
 
+  // Filter and sort events based on search and sort option
+  useEffect(() => {
+    let updatedEvents = [...events];
+
+    // Filter by search text
+    if (search) {
+      updatedEvents = updatedEvents.filter((event) =>
+        event.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    // Sort by selected option
+    if (sortOption) {
+      if (sortOption === "date") {
+        updatedEvents.sort(
+          (a, b) => new Date(a.dateTime) - new Date(b.dateTime)
+        );
+      } else if (sortOption === "name") {
+        updatedEvents.sort((a, b) => a.title.localeCompare(b.title));
+      }
+    }
+
+    setFilteredEvents(updatedEvents);
+  }, [events, search, sortOption]);
+
   return (
     <ScrollView style={styles.container}>
-      {events.map((event) => (
-        <TouchableOpacity
-          key={event.id}
-          onPress={() => navigation.navigate("EventDetails", { event })}
-        >
-          <Card key={event.id} containerStyle={styles.card}>
-            <View style={styles.mapContainer}>
-              <MapView
-                style={styles.map}
-                initialRegion={{
-                  latitude: event.coordinates.latitude,
-                  longitude: event.coordinates.longitude,
-                  latitudeDelta: 0.01,
-                  longitudeDelta: 0.01,
-                }}
-                scrollEnabled={false}
-                zoomEnabled={false}
-              >
-                <Marker coordinate={event.coordinates} />
-              </MapView>
-            </View>
-            <Text style={styles.title}>{event.title}</Text>
-            <Text style={styles.location}>{`Location: ${event.location}`}</Text>
-            <Text style={styles.dateTime}>{event.dateTime}</Text>
-          </Card>
-        </TouchableOpacity>
-      ))}
+      <SearchBar
+        placeholder="Type Here..."
+        onChangeText={setSearch}
+        value={search}
+        containerStyle={styles.searchBar}
+        inputContainerStyle={styles.searchInput}
+      />
+      <View style={styles.sortContainer}>
+        <Text style={styles.sortLabel}>Sort By:</Text>
+        <Dropdown
+          data={sortOptions}
+          labelField="label"
+          valueField="value"
+          placeholder="Default"
+          value={sortOption}
+          onChange={(item) => setSortOption(item.value)}
+          style={styles.dropdown}
+          selectedTextStyle={styles.selectedText}
+          containerStyle={styles.dropdownContainer}
+          itemTextStyle={styles.itemText}
+        />
+      </View>
+      <View>
+        {filteredEvents.map((event) => (
+          <TouchableOpacity
+            key={event.id}
+            onPress={() => navigation.navigate("EventDetails", { event })}
+          >
+            <Card key={event.id} containerStyle={styles.card}>
+              <Text style={styles.title}>{event.title}</Text>
+              <Text
+                style={styles.location}
+              >{`Location: ${event.location}`}</Text>
+              <Text style={styles.dateTime}>{event.dateTime}</Text>
+            </Card>
+          </TouchableOpacity>
+        ))}
+      </View>
     </ScrollView>
   );
 }
@@ -80,6 +113,30 @@ export default function EventScreen({ isFetchAll }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  searchBar: {
+    marginBottom: 10,
+    overflow: "hidden",
+  },
+  searchInput: {
+    backgroundColor: "#f0f0f0",
+  },
+  sortContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 20,
+  },
+  sortLabel: {
+    fontSize: 16,
+    marginRight: 10,
+  },
+  dropdown: {
+    height: 30,
+    borderColor: "#ccc",
+    minWidth: "30%",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 8,
   },
   card: {
     borderRadius: 10,
