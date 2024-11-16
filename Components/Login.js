@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  View,
   Text,
   TextInput,
   Button,
@@ -60,6 +59,11 @@ export default function Login({ navigation }) {
       />
 
       <Button title="Log In" onPress={handleLogin} />
+
+      <Button
+        title="Forgot Password?"
+        onPress={() => navigation.navigate("ResetPassword")}
+      />
 
       <Button
         title="New User? Create an account"
