@@ -13,6 +13,7 @@ import EventDetail from "./screens/EventDetail";
 import AddEditEvent from "./screens/AddOrEditEvent";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
+import ResetPassword from "./Components/ResetPassword";
 import { TouchableOpacity } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { LoginUserIdProvider } from "./Components/UserContext";
@@ -50,6 +51,7 @@ export default function App() {
     <>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Signup" component={Signup} />
+      <Stack.Screen name="ResetPassword" component={ResetPassword} />
     </>
   );
 

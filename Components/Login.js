@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import {
-  View,
   Text,
   TextInput,
   Button,
-  TouchableOpacity,
   Alert,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { auth } from "../Firebase/firebaseSetup";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -36,7 +35,12 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.header}>Welcome Back to WanderConnect!</Text>
+      <Text style={styles.description}>
+        Rejoin a global community of travel lovers. Log in and pick up where you
+        left off on your journey of discovery and connection.
+      </Text>
       <Text style={styles.label}>Email Address</Text>
       <TextInput
         value={email}
@@ -57,10 +61,15 @@ export default function Login({ navigation }) {
       <Button title="Log In" onPress={handleLogin} />
 
       <Button
+        title="Forgot Password?"
+        onPress={() => navigation.navigate("ResetPassword")}
+      />
+
+      <Button
         title="New User? Create an account"
         onPress={() => navigation.navigate("Signup")}
       />
-    </View>
+    </ScrollView>
   );
 }
 
@@ -71,6 +80,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     backgroundColor: "#fff",
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  description: {
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 20,
+    color: "#555",
   },
   label: {
     alignSelf: "flex-start",

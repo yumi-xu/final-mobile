@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import {
-  View,
   Text,
   TextInput,
   Button,
-  TouchableOpacity,
   Alert,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { auth } from "../Firebase/firebaseSetup";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -17,28 +16,45 @@ export default function Signup({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const isPasswordStrong = (password) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    return (
+      password.length >= minLength &&
+      hasUpperCase &&
+      hasLowerCase &&
+      hasNumber &&
+      hasSpecialChar
+    );
+  };
+
   const handleSignup = async () => {
+    if (
+      email.length === 0 ||
+      password.length === 0 ||
+      confirmPassword.length === 0
+    ) {
+      Alert.alert("Error", "All fields must be filled out.");
+      return;
+    }
     if (password !== confirmPassword) {
       Alert.alert("Error", "Passwords do not match!");
       return;
     }
 
+    if (!isPasswordStrong(password)) {
+      Alert.alert(
+        "Weak Password",
+        'Password must be at least 8 characters long, and include uppercase, lowercase, numbers, and special characters. Special characters should be in !@#$%^&*(),.?":{}|<>',
+      );
+      return;
+    }
+
     try {
-      if (
-        email.length === 0 ||
-        password.length === 0 ||
-        confirmPassword.length === 0
-      ) {
-        Alert.alert("All fields should be provided!");
-        return;
-      }
-      if (password !== confirmPassword) {
-        Alert.alert("Error", "password and confirm password do not match!");
-        return;
-      }
-
-      //add some more regex for email
-
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -60,7 +76,6 @@ export default function Signup({ navigation }) {
         },
         "users",
       );
-
       Alert.alert("Success", "User registered successfully!");
     } catch (error) {
       Alert.alert("Error", error.message);
@@ -68,7 +83,14 @@ export default function Signup({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.header}>Welcome to WanderConnect!</Text>
+      <Text style={styles.description}>
+        Discover the world, share your journeys, and connect with fellow
+        travelers on WanderConnect, your ultimate social travel companion. Join
+        a community of travel enthusiasts and make your next adventure
+        unforgettable.
+      </Text>
       <Text style={styles.label}>Email Address</Text>
       <TextInput
         value={email}
@@ -98,10 +120,15 @@ export default function Signup({ navigation }) {
       <Button title="Register" onPress={handleSignup} />
 
       <Button
+        title="Forgot Password?"
+        onPress={() => navigation.navigate("ResetPassword")}
+      />
+
+      <Button
         title="Already Registered? Login"
         onPress={() => navigation.navigate("Login")}
       />
-    </View>
+    </ScrollView>
   );
 }
 
@@ -112,6 +139,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     backgroundColor: "#fff",
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  description: {
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 20,
+    color: "#555",
   },
   label: {
     alignSelf: "flex-start",
