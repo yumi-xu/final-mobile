@@ -49,7 +49,7 @@ export default function Signup({ navigation }) {
     if (!isPasswordStrong(password)) {
       Alert.alert(
         "Weak Password",
-        'Password must be at least 8 characters long, and include uppercase, lowercase, numbers, and special characters. Special characters should be in "!@#$%^&*(),.?":{}|<>"',
+        'Password must be at least 8 characters long, and include uppercase, lowercase, numbers, and special characters. Special characters should be in !@#$%^&*(),.?":{}|<>',
       );
       return;
     }
