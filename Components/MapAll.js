@@ -38,8 +38,8 @@ export default function MapAll({ navigation }) {
         ref={mapRef}
         style={styles.map}
         initialRegion={{
-          latitude: 37.785834,
-          longitude: -122.406417,
+          latitude: 49.2827,
+          longitude: -123.1207,
           latitudeDelta: 0.5,
           longitudeDelta: 0.5,
         }}
