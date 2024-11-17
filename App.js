@@ -18,6 +18,7 @@ import { TouchableOpacity } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { LoginUserIdProvider } from "./Components/UserContext";
 import EventScreen from "./screens/Events";
+import MapAll from "./Components/MapAll";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -82,6 +83,7 @@ export default function App() {
             ),
           })}
         />
+        <Tab.Screen name="Map" component={MapAll} />
         <Tab.Screen
           name="Me"
           component={Me}
@@ -135,7 +137,7 @@ export default function App() {
           ),
         })}
       />
-      <Tab.Screen name="MeEdit" component={MeEdit} />
+      <Stack.Screen name="MeEdit" component={MeEdit} />
     </>
   );
 

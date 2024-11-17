@@ -82,3 +82,17 @@ export async function getAllDocument(collectionName) {
     console.log("Error get all document: ", err);
   }
 }
+
+export const getAllEvents = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(database, "Events"));
+    const events = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return events;
+  } catch (err) {
+    console.log("Error getting all events: ", err);
+    throw err;
+  }
+};
