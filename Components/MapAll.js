@@ -35,6 +35,7 @@ export default function MapAll({ navigation }) {
   return (
     <View style={styles.container}>
       <MapView
+        ref={mapRef}
         style={styles.map}
         initialRegion={{
           latitude: 37.785834,
