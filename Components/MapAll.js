@@ -1,16 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { getAllEvents } from "../Firebase/firestoreHelper"; // 假设有一个函数来获取所有事件
+import { getAllEvents } from "../Firebase/firestoreHelper";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function MapAll({ navigation }) {
   const [events, setEvents] = useState([]);
   const mapRef = useRef(null);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const eventsData = await getAllEvents(); // 获取所有事件数据
+        const eventsData = await getAllEvents();
         console.log(eventsData);
         setEvents(eventsData);
 
@@ -25,8 +27,10 @@ export default function MapAll({ navigation }) {
         console.error("Error fetching events: ", error.message);
       }
     };
-    fetchEvents();
-  }, []);
+    if (isFocused) {
+      fetchEvents();
+    }
+  }, [isFocused]);
 
   const handleMarkerPress = (event) => {
     navigation.navigate("EventDetails", { event });
