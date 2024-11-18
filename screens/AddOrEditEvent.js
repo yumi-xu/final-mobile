@@ -28,31 +28,39 @@ export default function AddEditEvent({ route, navigation }) {
   const [coordinates, setCoordinates] = useState(initialEvent.coordinates);
 
   useEffect(() => {
-    (async () => {
-      // Request permission to access location
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        alert("Permission to access location was denied");
-        return;
-      }
-
-      // Get the current location
-      let currentLocation = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = currentLocation.coords;
-
-      // Update coordinates and reverse geocode to get address
-      setCoordinates({ latitude, longitude });
+    const fetchCurrentLocation = async () => {
       try {
-        const response = await Geocoder.from(latitude, longitude);
-        if (response.results.length > 0) {
-          const address = response.results[0].formatted_address;
-          setLocation(address); // Update the location state with the address
+        // Request permission to access location
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          alert("Permission to access location was denied");
+          return;
+        }
+
+        // Get the current location
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        const { latitude, longitude } = currentLocation.coords;
+
+        // Update coordinates and reverse geocode to get address
+        setCoordinates({ latitude, longitude });
+        try {
+          const response = await Geocoder.from(latitude, longitude);
+          if (response.results.length > 0) {
+            const address = response.results[0].formatted_address;
+            setLocation(address);
+          }
+        } catch (error) {
+          alert("Error fetching address");
         }
       } catch (error) {
-        alert("Error fetching address");
+        console.error("Error fetching current location: ", error);
       }
-    })();
-  }, []);
+    };
+
+    if (!isEditMode) {
+      fetchCurrentLocation();
+    }
+  }, [isEditMode]);
 
   const handleSave = () => {
     const newEvent = {
