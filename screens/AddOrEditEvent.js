@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, View, StyleSheet, ScrollView } from "react-native";
 import { Input, Button, Text, Switch } from "@rneui/themed";
 import MapView, { Marker } from "react-native-maps";
@@ -6,8 +6,9 @@ import Geocoder from "react-native-geocoding";
 import DatePicker from "../Components/Datepicker";
 import { updateDB, writeToDB } from "../Firebase/firestoreHelper";
 import { auth } from "../Firebase/firebaseSetup";
+import * as Location from "expo-location";
 
-Geocoder.init(process.env.EXPO_PUBLIC_GOOGLE_MAP_APIKEY);
+Geocoder.init(process.env.EXPO_PUBLIC_mapsApiKey);
 export default function AddEditEvent({ route, navigation }) {
   const event = route.params?.event;
   const isEditMode = event !== undefined;
@@ -25,6 +26,41 @@ export default function AddEditEvent({ route, navigation }) {
   const [dateTime, setDateTime] = useState(new Date(initialEvent.dateTime));
   const [reminder, setReminder] = useState(false);
   const [coordinates, setCoordinates] = useState(initialEvent.coordinates);
+
+  useEffect(() => {
+    const fetchCurrentLocation = async () => {
+      try {
+        // Request permission to access location
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          alert("Permission to access location was denied");
+          return;
+        }
+
+        // Get the current location
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        const { latitude, longitude } = currentLocation.coords;
+
+        // Update coordinates and reverse geocode to get address
+        setCoordinates({ latitude, longitude });
+        try {
+          const response = await Geocoder.from(latitude, longitude);
+          if (response.results.length > 0) {
+            const address = response.results[0].formatted_address;
+            setLocation(address);
+          }
+        } catch (error) {
+          alert("Error fetching address");
+        }
+      } catch (error) {
+        console.error("Error fetching current location: ", error);
+      }
+    };
+
+    if (!isEditMode) {
+      fetchCurrentLocation();
+    }
+  }, [isEditMode]);
 
   const handleSave = () => {
     const newEvent = {
@@ -53,7 +89,7 @@ export default function AddEditEvent({ route, navigation }) {
           },
         },
       ],
-      { cancelable: false }
+      { cancelable: false },
     );
   };
 
@@ -99,14 +135,27 @@ export default function AddEditEvent({ route, navigation }) {
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: initialEvent.coordinates.latitude,
-          longitude: initialEvent.coordinates.longitude,
-          latitudeDelta: 0.1,
-          longitudeDelta: 0.1,
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }}
+        region={{
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
         }}
         onPress={handleMapPress}
+        showsUserLocation={true}
+        followsUserLocation={true}
       >
-        <Marker coordinate={coordinates} />
+        <Marker
+          coordinate={coordinates}
+          pinColor="blue"
+          title="Your Location"
+          description={location}
+        />
       </MapView>
       <View style={styles.reminderContainer}>
         <Switch value={reminder} onValueChange={setReminder} />

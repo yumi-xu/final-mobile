@@ -40,7 +40,6 @@ export default function AddPost({ navigation }) {
 
   const handlePost = () => {
     if (description && image) {
-      console.log(userInfo);
       const newPost = {
         image,
         description,
