@@ -13,7 +13,6 @@ export default function MapAll({ navigation }) {
     const fetchEvents = async () => {
       try {
         const eventsData = await getAllEvents();
-        console.log(eventsData);
         setEvents(eventsData);
 
         if (eventsData.length > 0 && mapRef.current) {
