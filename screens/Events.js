@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Card, SearchBar } from "@rneui/themed";
 import { collection, onSnapshot } from "firebase/firestore";
-import { auth, database } from "../Firebase/firebaseSetup";
+import { database } from "../Firebase/firebaseSetup";
 import { useNavigation } from "@react-navigation/native";
 import { Dropdown } from "react-native-element-dropdown";
 const sortOptions = [
@@ -58,7 +58,7 @@ export default function EventScreen() {
         updatedEvents.sort(
           (a, b) => new Date(a.dateTime) - new Date(b.dateTime)
         );
-      } else if (sortOption === "name") {
+      } else if (sortOption === "title") {
         updatedEvents.sort((a, b) => a.title.localeCompare(b.title));
       }
     }
