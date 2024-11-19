@@ -23,15 +23,40 @@ export async function takeImage() {
       return null;
     }
 
-    const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      quality: 0.5, // Adjust image quality if needed
+    // Ask the user to choose an action
+    const userChoice = await new Promise((resolve) => {
+      Alert.alert(
+        "Select Image",
+        "Choose how you want to select the image:",
+        [
+          { text: "Take a Photo", onPress: () => resolve("camera") },
+          { text: "Choose from Albums", onPress: () => resolve("album") },
+          // { text: "Cancel", style: "cancel", onPress: () => resolve(null) },
+        ],
+        { cancelable: true }
+      );
     });
 
-    if (!result.canceled) {
-      const fileUri = result.assets[0].uri; // Return the image URI
-      return fileUri;
+    if (userChoice === "camera") {
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        quality: 0.5, // Adjust image quality if needed
+      });
+
+      if (!result.canceled) {
+        return result.assets[0].uri; // Return the image URI
+      }
+    } else if (userChoice === "album") {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        quality: 0.5, // Adjust image quality if needed
+      });
+
+      if (!result.canceled) {
+        return result.assets[0].uri; // Return the image URI
+      }
     }
+
     return null;
   } catch (error) {
     console.error("Error taking image:", error);
