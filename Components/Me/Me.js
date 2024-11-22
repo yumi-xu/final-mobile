@@ -1,6 +1,13 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { Avatar, Button, Card, Icon } from "@rneui/themed";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
+import { Avatar, Card } from "@rneui/themed";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useNavigation } from "@react-navigation/native";
 import { useMyUserInfo } from "./useMyUserInfo";
 import { MyPosts } from "./MyPosts";
@@ -29,7 +36,9 @@ export default function Me() {
             />
             <Text style={styles.userName}>{userName}</Text>
           </View>
-          <Button onPress={handleEditProfile}>Edit Profile</Button>
+          <TouchableOpacity onPress={handleEditProfile}>
+            <MaterialIcons name="edit" size={24} color="black" />
+          </TouchableOpacity>
         </View>
       </Card>
 
