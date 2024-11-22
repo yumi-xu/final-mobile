@@ -63,6 +63,9 @@ export default function App() {
           name="Post"
           component={Posts}
           options={({ navigation, route }) => ({
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="document-text-outline" type="ionicon" size={size} color={color} />
+            ),
             headerRight: () => (
               <TouchableOpacity onPress={() => navigation.navigate("AddPost")}>
                 <Icon name="add-circle" type="ionicon" size={30} />
@@ -74,6 +77,9 @@ export default function App() {
           name="Event"
           component={EventScreen}
           options={({ navigation, route }) => ({
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="calendar" type="ionicon" size={size} color={color} />
+            ),
             headerRight: () => (
               <TouchableOpacity
                 onPress={() => navigation.navigate("AddEditEvent")}
@@ -83,11 +89,22 @@ export default function App() {
             ),
           })}
         />
-        <Tab.Screen name="Map" component={MapAll} />
+        <Tab.Screen
+          name="Map"
+          component={MapAll}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="map" type="ionicon" size={size} color={color} />
+            ),
+          }}
+        />
         <Tab.Screen
           name="Me"
           component={Me}
           options={{
+            tabBarIcon: ({ color, size }) => (
+              <AntDesign name="user" size={size} color={color} />
+            ),
             headerRight: () => (
               <Button onPress={handleSignOut}>
                 <AntDesign name="logout" size={24} color="white" />
