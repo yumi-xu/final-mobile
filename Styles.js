@@ -3,10 +3,15 @@ export const headerIcon = {
 };
 
 export const eventItem = {
+  card: {
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
   dateTime: {
     fontSize: 14,
-    margin: 10,
     marginTop: 0,
+    margin: 10,
   },
   title: {
     fontSize: 18,
@@ -15,7 +20,12 @@ export const eventItem = {
   },
   location: {
     fontSize: 14,
-    margin: 10,
     marginTop: 0,
+    margin: 10,
+  },
+  iconContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    gap: 10,
   },
 }
