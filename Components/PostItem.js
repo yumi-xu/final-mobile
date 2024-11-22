@@ -3,20 +3,44 @@ import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Card, Avatar, Icon } from "@rneui/themed";
 import { updateDB } from "../Firebase/firestoreHelper";
 import { useMyUserInfo } from "./Me/useMyUserInfo";
+import { downloadImage } from "./ImageManager";
 
 export default function PostItem({ item: post }) {
   const [favoriteCount, setFavoriteCount] = useState(post.favoriteCount || 0);
   const [isFavorited, setIsFavorited] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [userAvatarUrl, setUserAvatarUrl] = useState(null);
 
   const userInfo = useMyUserInfo();
-
   useEffect(() => {
-    if (userInfo?.favoritePosts?.includes(post.id)) {
+    if (userInfo.favoritePosts.includes(post.id)) {
       setIsFavorited(true);
     } else {
       setIsFavorited(false);
     }
-  }, [userInfo, post.id]);
+  }, [post.id]);
+
+  useEffect(() => {
+    const fetchAssets = async () => {
+      try {
+        // Fetch both image and user avatar in parallel
+        const [image, avatar] = await Promise.all([
+          downloadImage(post.imageUrl),
+          downloadImage(post.userAvatar),
+        ]);
+
+        // Set states for both the image and avatar
+        setImageUrl(image);
+        setUserAvatarUrl(avatar);
+      } catch (error) {
+        console.error("Error downloading assets:", error); // Handle any errors
+      }
+    };
+
+    if (post.imageUrl && post.userAvatar) {
+      fetchAssets();
+    }
+  }, [post.imageUrl, post.userAvatar]);
 
   // Toggle favorite status and update count
   const toggleFavorite = () => {
@@ -34,8 +58,8 @@ export default function PostItem({ item: post }) {
   return (
     <Card containerStyle={styles.card}>
       <View style={styles.header}>
-        {post.userAvatar && (
-          <Avatar rounded source={{ uri: post.userAvatar }} />
+        {userAvatarUrl && (
+          <Avatar rounded source={{ uri: userAvatarUrl }} />
         )}
         <Text style={styles.userName}>{post.userName}</Text>
         <TouchableOpacity
@@ -53,7 +77,7 @@ export default function PostItem({ item: post }) {
           )}
         </TouchableOpacity>
       </View>
-      <Image source={{ uri: post.image }} style={styles.postImage} />
+      <Image source={{ uri: imageUrl }} style={styles.postImage} />
       <Text style={styles.description}>{post.description}</Text>
     </Card>
   );

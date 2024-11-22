@@ -14,11 +14,12 @@ import AddEditEvent from "./screens/AddOrEditEvent";
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import ResetPassword from "./Components/ResetPassword";
-import { TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { LoginUserIdProvider } from "./Components/UserContext";
 import EventScreen from "./screens/Events";
 import MapAll from "./Components/MapAll";
+import { headerIcon } from "./Styles";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -63,8 +64,19 @@ export default function App() {
           name="Post"
           component={Posts}
           options={({ navigation, route }) => ({
+            tabBarIcon: ({ color, size }) => (
+              <Icon
+                name="document-text-outline"
+                type="ionicon"
+                size={size}
+                color={color}
+              />
+            ),
             headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate("AddPost")}>
+              <TouchableOpacity
+                style={styles.headerIcon}
+                onPress={() => navigation.navigate("AddPost")}
+              >
                 <Icon name="add-circle" type="ionicon" size={30} />
               </TouchableOpacity>
             ),
@@ -74,8 +86,12 @@ export default function App() {
           name="Event"
           component={EventScreen}
           options={({ navigation, route }) => ({
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="calendar" type="ionicon" size={size} color={color} />
+            ),
             headerRight: () => (
               <TouchableOpacity
+                style={styles.headerIcon}
                 onPress={() => navigation.navigate("AddEditEvent")}
               >
                 <Icon name="add-circle" type="ionicon" size={30} />
@@ -83,15 +99,29 @@ export default function App() {
             ),
           })}
         />
-        <Tab.Screen name="Map" component={MapAll} />
+        <Tab.Screen
+          name="Map"
+          component={MapAll}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="map" type="ionicon" size={size} color={color} />
+            ),
+          }}
+        />
         <Tab.Screen
           name="Me"
           component={Me}
           options={{
+            tabBarIcon: ({ color, size }) => (
+              <AntDesign name="user" size={size} color={color} />
+            ),
             headerRight: () => (
-              <Button onPress={handleSignOut}>
-                <AntDesign name="logout" size={24} color="white" />
-              </Button>
+              <TouchableOpacity
+                style={styles.headerIcon}
+                onPress={handleSignOut}
+              >
+                <AntDesign name="logout" size={24} color="black" />
+              </TouchableOpacity>
             ),
           }}
         />
@@ -151,3 +181,7 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  headerIcon: headerIcon,
+});

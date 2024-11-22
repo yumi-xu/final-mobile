@@ -1,31 +1,8 @@
 import React from "react";
-import { Alert, View, Text, StyleSheet } from "react-native";
-import { Button } from "@rneui/themed";
+import { View, Text, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { deleteFromDB } from "../Firebase/firestoreHelper";
-import { auth } from "../Firebase/firebaseSetup";
-
 export default function EventDetail({ route, navigation }) {
   const { event } = route.params;
-
-  const handleDelete = () => {
-    Alert.alert(
-      "Delete Event",
-      "Are you sure you want to delete this event?",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: () => {
-            deleteFromDB(event.id, "Events");
-            navigation.goBack();
-          },
-        },
-      ],
-      { cancelable: true }
-    );
-  };
 
   return (
     <View style={styles.container}>
@@ -47,21 +24,6 @@ export default function EventDetail({ route, navigation }) {
         <Text
           style={styles.description}
         >{`Description: ${event.description}`}</Text>
-        {event.owner === auth.currentUser?.uid && (
-          <View style={styles.buttonContainer}>
-            <Button
-              title="Edit"
-              onPress={() =>
-                navigation.navigate("AddEditEvent", { event: event })
-              }
-            />
-            <Button
-              title="Delete"
-              color="red"
-              onPress={() => handleDelete()} // Handle event deletion
-            />
-          </View>
-        )}
       </View>
     </View>
   );

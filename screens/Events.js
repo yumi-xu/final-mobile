@@ -8,9 +8,10 @@ import {
 } from "react-native";
 import { Card, SearchBar } from "@rneui/themed";
 import { collection, onSnapshot } from "firebase/firestore";
-import { auth, database } from "../Firebase/firebaseSetup";
+import { database } from "../Firebase/firebaseSetup";
 import { useNavigation } from "@react-navigation/native";
 import { Dropdown } from "react-native-element-dropdown";
+import { eventItem } from "../Styles";
 const sortOptions = [
   { label: "Title", value: "title" },
   { label: "Date", value: "date" },
@@ -58,7 +59,7 @@ export default function EventScreen() {
         updatedEvents.sort(
           (a, b) => new Date(a.dateTime) - new Date(b.dateTime)
         );
-      } else if (sortOption === "name") {
+      } else if (sortOption === "title") {
         updatedEvents.sort((a, b) => a.title.localeCompare(b.title));
       }
     }
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 10,
     overflow: "hidden",
-    padding: 0,
+    padding: 10,
     marginBottom: 20,
   },
   mapContainer: {
@@ -151,19 +152,7 @@ const styles = StyleSheet.create({
     height: 200,
     width: "100%",
   },
-  dateTime: {
-    fontSize: 14,
-    margin: 10,
-    marginTop: 0,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    margin: 10,
-  },
-  location: {
-    fontSize: 14,
-    margin: 10,
-    marginTop: 0,
-  },
+  title: eventItem.title,
+  location: eventItem.location,
+  dateTimeL: eventItem.dateTime,
 });

@@ -3,6 +3,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { database } from "../../Firebase/firebaseSetup";
 import { useLoginUserId } from "../UserContext";
 import { DEFAULT_AVATAR } from "../helper";
+import { downloadImage } from "../ImageManager";
 
 export const useMyUserInfo = () => {
   const userId = useLoginUserId();
@@ -12,6 +13,7 @@ export const useMyUserInfo = () => {
     age: "",
     sex: "",
     avatar: "",
+    avatarUri: "",
     email: "",
     phone: "",
     address: "",
@@ -34,6 +36,7 @@ export const useMyUserInfo = () => {
             age: data.age || "",
             sex: data.sex || "",
             avatar: data.avatar || DEFAULT_AVATAR,
+            avatarUri: data.avatar ? null : DEFAULT_AVATAR,
             email: data.email || "",
             phone: data.phone || "",
             address: data.address || "",
@@ -50,5 +53,21 @@ export const useMyUserInfo = () => {
       unsubscribe();
     };
   }, []);
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      if (userInfo.avatar) {
+        const avatarUri = await downloadImage(userInfo.avatar); // Assuming userInfo.avatar is the correct property
+        setUserInfo((prevUserInfo) => ({
+          ...prevUserInfo,
+          avatarUri,
+        }));
+      }
+    };
+
+    if (userId.avatar !== DEFAULT_AVATAR) {
+      fetchAvatar();
+    }
+  }, [userInfo.avatar]);
+
   return userInfo;
 };

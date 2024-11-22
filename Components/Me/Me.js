@@ -1,15 +1,21 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { Avatar, Button, Card, Icon } from "@rneui/themed";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
+import { Avatar, Card, Icon} from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { useMyUserInfo } from "./useMyUserInfo";
-import { MyPosts } from "./MyPosts";
+import { MyEvents } from "./MyEvents";
 
 export default function Me() {
   const navigation = useNavigation();
   const userInfo = useMyUserInfo();
 
-  const avatar = userInfo.avatar;
+  const avatar = userInfo.avatarUri;
   const userName = userInfo.name;
 
   //go to edit page
@@ -29,11 +35,13 @@ export default function Me() {
             />
             <Text style={styles.userName}>{userName}</Text>
           </View>
-          <Button onPress={handleEditProfile}>Edit Profile</Button>
+          <TouchableOpacity onPress={handleEditProfile}>
+            <Icon name="edit" type="material" size={24} color="black" />
+          </TouchableOpacity>
         </View>
       </Card>
 
-      <MyPosts />
+      <MyEvents />
     </ScrollView>
   );
 }

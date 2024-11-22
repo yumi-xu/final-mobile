@@ -1,18 +1,12 @@
 import React from "react";
 import { Text, StyleSheet, Pressable, Image } from "react-native";
 import { Card } from "@rneui/themed";
-import { useNavigation } from "@react-navigation/native";
+
 
 export const MyPostsItem = ({ post }) => {
-  const navigation = useNavigation();
-  const handleGoToPostDetail = () => {
-    // TODO:
-    console.log("GO TO POST DETAIL", post.id);
-  };
-
   return (
     <Card containerStyle={styles.card}>
-      <Pressable onPress={handleGoToPostDetail}>
+      <Pressable>
         <Text style={styles.description}>{post.description}</Text>
         <Image source={{ uri: post.image }} style={styles.postImage} />
       </Pressable>
