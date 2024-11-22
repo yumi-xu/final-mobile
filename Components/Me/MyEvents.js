@@ -34,6 +34,11 @@ export const MyEvents = () => {
   return (
     <Card containerStyle={styles.card}>
       <Card.Title>My Events</Card.Title>
+      {myEvents.length === 0 && (
+        <Text style={styles.emptyMessage}>
+          No events available. Add one to get started!
+        </Text>
+      )}
       {myEvents.map((event) => {
         return (
           <View key={event.id}>
