@@ -9,9 +9,9 @@ export default function PostItem({ item: post }) {
   const [favoriteCount, setFavoriteCount] = useState(post.favoriteCount || 0);
   const [isFavorited, setIsFavorited] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
+  const [userAvatarUrl, setUserAvatarUrl] = useState(null);
 
   const userInfo = useMyUserInfo();
-
   useEffect(() => {
     if (userInfo.favoritePosts.includes(post.id)) {
       setIsFavorited(true);
@@ -21,19 +21,26 @@ export default function PostItem({ item: post }) {
   }, [post.id]);
 
   useEffect(() => {
-    const fetchImage = async () => {
+    const fetchAssets = async () => {
       try {
-        const image = await downloadImage(post.imageUrl); // Wait for the image to download
-        setImageUrl(image); // Set the image state once downloaded
+        // Fetch both image and user avatar in parallel
+        const [image, avatar] = await Promise.all([
+          downloadImage(post.imageUrl),
+          downloadImage(post.userAvatar),
+        ]);
+
+        // Set states for both the image and avatar
+        setImageUrl(image);
+        setUserAvatarUrl(avatar);
       } catch (error) {
-        console.error("Error downloading image:", error); // Handle any errors
+        console.error("Error downloading assets:", error); // Handle any errors
       }
     };
 
-    if (post.imageUrl) {
-      fetchImage();
+    if (post.imageUrl && post.userAvatar) {
+      fetchAssets();
     }
-  }, [post.imageUrl]);
+  }, [post.imageUrl, post.userAvatar]);
 
   // Toggle favorite status and update count
   const toggleFavorite = () => {
@@ -51,8 +58,8 @@ export default function PostItem({ item: post }) {
   return (
     <Card containerStyle={styles.card}>
       <View style={styles.header}>
-        {post.userAvatar && (
-          <Avatar rounded source={{ uri: post.userAvatar }} />
+        {userAvatarUrl && (
+          <Avatar rounded source={{ uri: userAvatarUrl }} />
         )}
         <Text style={styles.userName}>{post.userName}</Text>
         <TouchableOpacity
