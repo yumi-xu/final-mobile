@@ -10,7 +10,7 @@ import { Avatar, Card } from "@rneui/themed";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useNavigation } from "@react-navigation/native";
 import { useMyUserInfo } from "./useMyUserInfo";
-import { MyPosts } from "./MyPosts";
+import { MyEvents } from "./MyEvents";
 
 export default function Me() {
   const navigation = useNavigation();
@@ -42,7 +42,7 @@ export default function Me() {
         </View>
       </Card>
 
-      <MyPosts />
+      <MyEvents/>
     </ScrollView>
   );
 }
