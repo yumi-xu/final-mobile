@@ -9,14 +9,14 @@ export default function Me() {
   const navigation = useNavigation();
   const userInfo = useMyUserInfo();
 
-  const avatar = userInfo.avatar;
+  const avatar = userInfo.avatarUri;
   const userName = userInfo.name;
 
   //go to edit page
   const handleEditProfile = () => {
     navigation.navigate("MeEdit");
   };
-
+  
   return (
     <ScrollView>
       <Card containerStyle={styles.card}>

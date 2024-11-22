@@ -15,6 +15,7 @@ import { GenderInput } from "./GenderInput";
 import { useLoginUserId } from "../UserContext";
 import { updateDB } from "../../Firebase/firestoreHelper";
 import { AvatarEdit } from "./AvatarEdit";
+import { uploadImage } from "../ImageManager";
 
 export default function MeEdit() {
   const navigation = useNavigation();
@@ -23,7 +24,7 @@ export default function MeEdit() {
   const [name, setName] = useState(initialUserInfo.name);
   const [age, setAge] = useState(initialUserInfo.age);
   const [sex, setSex] = useState(initialUserInfo.sex);
-  const [avatar, setAvatar] = useState(initialUserInfo.avatar || "");
+  const [avatar, setAvatar] = useState(initialUserInfo.avatarUri);
   const [email, setEmail] = useState(initialUserInfo.email);
   const [phone, setPhone] = useState(initialUserInfo.phone);
   const [address, setAddress] = useState(initialUserInfo.address);
@@ -37,7 +38,7 @@ export default function MeEdit() {
     setName(initialUserInfo.name);
     setAge(initialUserInfo.age);
     setSex(initialUserInfo.sex);
-    setAvatar(initialUserInfo.avatar || "");
+    setAvatar(initialUserInfo.avatarUri);
     setEmail(initialUserInfo.email);
     setPhone(initialUserInfo.phone);
     setAddress(initialUserInfo.address);
@@ -85,6 +86,10 @@ export default function MeEdit() {
     }
     setLoading(true);
     try {
+      if (avatar !== initialUserInfo.userAvatar) {
+        const path = await uploadImage(avatar);
+        userInfo.avatar = path;
+      }
       //update me info
       await updateDB(userId, userInfo, "users");
       Alert.alert("Success", "Profile updated successfully!");

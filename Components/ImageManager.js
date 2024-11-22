@@ -2,6 +2,7 @@ import * as ImagePicker from "expo-image-picker";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Alert } from "react-native";
 import { storage } from "../Firebase/firebaseSetup";
+import { DEFAULT_AVATAR } from "./helper";
 
 export async function verifyPermission() {
   const { granted } = await ImagePicker.getCameraPermissionsAsync();
@@ -82,6 +83,12 @@ export async function uploadImage(uri) {
 
 export async function downloadImage(uri) {
   try {
+    if (!uri) {
+      return null;
+    }
+    if (uri === DEFAULT_AVATAR) {
+      return DEFAULT_AVATAR;
+    }
     const reference = ref(storage, uri);
     const url = await getDownloadURL(reference);
     return url;
