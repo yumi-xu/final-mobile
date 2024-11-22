@@ -86,8 +86,8 @@ export async function downloadImage(uri) {
     if (!uri) {
       return null;
     }
-    if (uri === DEFAULT_AVATAR) {
-      return DEFAULT_AVATAR;
+    if (!uri.startsWith('images/')) {
+      return uri;
     }
     const reference = ref(storage, uri);
     const url = await getDownloadURL(reference);

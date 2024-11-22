@@ -35,7 +35,8 @@ export const useMyUserInfo = () => {
             name: data.name || "",
             age: data.age || "",
             sex: data.sex || "",
-            avatar: data.avatar,
+            avatar: data.avatar || DEFAULT_AVATAR,
+            avatarUri: data.avatar ? null : DEFAULT_AVATAR,
             email: data.email || "",
             phone: data.phone || "",
             address: data.address || "",
@@ -54,17 +55,18 @@ export const useMyUserInfo = () => {
   }, []);
   useEffect(() => {
     const fetchAvatar = async () => {
-      let avatarUri = DEFAULT_AVATAR;
       if (userInfo.avatar) {
-        avatarUri = await downloadImage(userInfo.avatar); // Assuming userInfo.avatar is the correct property
+        const avatarUri = await downloadImage(userInfo.avatar); // Assuming userInfo.avatar is the correct property
+        setUserInfo((prevUserInfo) => ({
+          ...prevUserInfo,
+          avatarUri,
+        }));
       }
-      setUserInfo((prevUserInfo) => ({
-        ...prevUserInfo,
-        avatarUri,
-      }));
     };
 
-    fetchAvatar();
+    if (userId.avatar !== DEFAULT_AVATAR) {
+      fetchAvatar();
+    }
   }, [userInfo.avatar]);
 
   return userInfo;

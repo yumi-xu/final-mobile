@@ -6,8 +6,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { Avatar, Card } from "@rneui/themed";
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Avatar, Card, Icon} from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { useMyUserInfo } from "./useMyUserInfo";
 import { MyEvents } from "./MyEvents";
@@ -23,7 +22,7 @@ export default function Me() {
   const handleEditProfile = () => {
     navigation.navigate("MeEdit");
   };
-  
+
   return (
     <ScrollView>
       <Card containerStyle={styles.card}>
@@ -37,12 +36,12 @@ export default function Me() {
             <Text style={styles.userName}>{userName}</Text>
           </View>
           <TouchableOpacity onPress={handleEditProfile}>
-            <MaterialIcons name="edit" size={24} color="black" />
+            <Icon name="edit" type="material" size={24} color="black" />
           </TouchableOpacity>
         </View>
       </Card>
 
-      <MyEvents/>
+      <MyEvents />
     </ScrollView>
   );
 }
