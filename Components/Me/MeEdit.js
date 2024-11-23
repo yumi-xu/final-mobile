@@ -114,37 +114,37 @@ export default function MeEdit() {
           <Text style={styles.label}>Avatar</Text>
           <AvatarEdit avatar={avatar} onChange={setAvatar} />
 
-          <Text style={styles.label}>Name</Text>
+          <Text style={styles.label}>Name *</Text>
           <TextInput value={name} onChangeText={setName} style={styles.input} />
 
-          <Text style={styles.label}>Age</Text>
+          <Text style={styles.label}>Age *</Text>
           <TextInput value={age} onChangeText={setAge} style={styles.input} />
 
-          <Text style={styles.label}>Sex</Text>
+          <Text style={styles.label}>Sex *</Text>
           <GenderInput value={sex} onChange={setSex} />
 
-          <Text style={styles.label}>Email</Text>
+          <Text style={styles.label}>Email *</Text>
           <TextInput
             value={email}
             onChangeText={setEmail}
             style={styles.input}
           />
 
-          <Text style={styles.label}>Phone</Text>
+          <Text style={styles.label}>Phone *</Text>
           <TextInput
             value={phone}
             onChangeText={setPhone}
             style={styles.input}
           />
 
-          <Text style={styles.label}>Address</Text>
+          <Text style={styles.label}>Address *</Text>
           <TextInput
             value={address}
             onChangeText={setAddress}
             style={styles.input}
           />
 
-          <Text style={styles.label}>Description</Text>
+          <Text style={styles.label}>Description *</Text>
           <TextInput
             value={description}
             onChangeText={setDescription}
