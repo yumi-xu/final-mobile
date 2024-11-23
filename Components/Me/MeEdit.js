@@ -16,6 +16,7 @@ import { useLoginUserId } from "../UserContext";
 import { updateDB } from "../../Firebase/firestoreHelper";
 import { AvatarEdit } from "./AvatarEdit";
 import { uploadImage } from "../ImageManager";
+import { DEFAULT_AVATAR } from "../helper";
 
 export default function MeEdit() {
   const navigation = useNavigation();
@@ -86,7 +87,8 @@ export default function MeEdit() {
     }
     setLoading(true);
     try {
-      if (avatar !== initialUserInfo.userAvatar) {
+      // check if Avatar Changed
+      if (avatar !== initialUserInfo.userAvatar && avatar !== DEFAULT_AVATAR) {
         const path = await uploadImage(avatar);
         userInfo.avatar = path;
       }
