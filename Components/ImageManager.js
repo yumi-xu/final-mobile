@@ -18,7 +18,7 @@ export async function takeImage() {
     if (!hasPermission) {
       Alert.alert(
         "Permission Required",
-        "You need to grant camera permissions to use this feature."
+        "You need to grant camera permissions to use this feature.",
       );
       return null;
     }
@@ -33,7 +33,7 @@ export async function takeImage() {
           { text: "Choose from Albums", onPress: () => resolve("album") },
           // { text: "Cancel", style: "cancel", onPress: () => resolve(null) },
         ],
-        { cancelable: true }
+        { cancelable: true },
       );
     });
 
@@ -76,7 +76,7 @@ export async function uploadImage(uri) {
     const uploadResult = await uploadBytesResumable(imageRef, blob);
     return uploadResult.metadata.fullPath;
   } catch (err) {
-    console.error("Error Upload image:", error);
+    console.error("Error Upload image:", err);
   }
 }
 
@@ -85,7 +85,7 @@ export async function downloadImage(uri) {
     if (!uri) {
       return null;
     }
-    if (!uri.startsWith('images/')) {
+    if (!uri.startsWith("images/")) {
       return uri;
     }
     const reference = ref(storage, uri);

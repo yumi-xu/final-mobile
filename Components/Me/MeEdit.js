@@ -60,7 +60,7 @@ export default function MeEdit() {
           style: "destructive",
           onPress: () => navigation.goBack(),
         },
-      ]
+      ],
     );
   };
 
@@ -88,10 +88,13 @@ export default function MeEdit() {
     setLoading(true);
     try {
       // check if Avatar Changed
-      if (avatar !== initialUserInfo.userAvatar && avatar !== DEFAULT_AVATAR) {
+      if (avatar !== initialUserInfo.userAvatar) {
+        console.log("before upload");
         const path = await uploadImage(avatar);
+        console.log("uploaded");
         userInfo.avatar = path;
       }
+      console.log(userInfo);
       //update me info
       await updateDB(userId, userInfo, "users");
       Alert.alert("Success", "Profile updated successfully!");
@@ -99,6 +102,7 @@ export default function MeEdit() {
     } catch (error) {
       //loading
       setLoading(false);
+      console.log(error);
       Alert.alert("Failed", "Error updating profile!");
     }
   };

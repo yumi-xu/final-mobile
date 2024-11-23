@@ -10,6 +10,7 @@ import {
 import { auth } from "../Firebase/firebaseSetup";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { writeToDBWithId } from "../Firebase/firestoreHelper";
+import { DEFAULT_AVATAR } from "./helper";
 
 export default function Signup({ navigation }) {
   const [email, setEmail] = useState("");
@@ -68,7 +69,7 @@ export default function Signup({ navigation }) {
           name: user.email,
           age: "",
           sex: "",
-          avatar: "",
+          avatar: DEFAULT_AVATAR,
           email: user.email,
           phone: "",
           address: "",
