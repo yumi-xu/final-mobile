@@ -55,12 +55,16 @@ The `Events` collection holds data related to events created by users. This enab
 ## Components Overview
 
 ### Main Components
+- **SignUp**: User sign up if there is no exist user.
+- **Login**: User login if user has already registered.
+- **ResetPassword**: User reset password if forget.
 - **Me**: Displays user profile information.
 - **MeEdit**: Allows users to edit their profile.
 - **Posts**: Displays a feed of posts created by all users.
 - **AddPost**: Allows users to create a new post.
 - **EventDetail**: Shows detailed information about a specific event.
 - **AddOrEditEvent**: Allows users to create or edit events.
+- **MapAll**: Map show all events with location.
 
 ### Navigation
 The app uses a combination of stack and tab navigation. The app conditionally renders either the authentication stack or the main app stack based on the user’s login status.
@@ -89,7 +93,7 @@ Wenjing Yang:
 
 Yue Xu:
 
-- Implement map screen that display the nearest events.
+- Implement MapAll screen for showing all events and user can check the map events.
 - Implement authentication includes login, register and resetting passwords.
 
 ## Screenshots
