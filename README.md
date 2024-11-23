@@ -92,7 +92,7 @@ Yue Xu:
 - Implement map screen that display the nearest events.
 - Implement authentication includes login, register and resetting passwords.
 
-## Iteration 1
+## Screenshots
 
 - Login and Signup:  
   <img src="./screenshot/Login-IOS.png" alt="Login-IOS" width="150" height="300">
