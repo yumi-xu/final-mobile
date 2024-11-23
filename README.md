@@ -3,6 +3,20 @@
 ## Overview
 This project is a social networking app built with React Native and Firebase. Users can create profiles, share posts, and organize events. The app is structured to support user authentication, personalized content, and CRUD (Create, Read, Update, Delete) operations for user profiles, posts, and events.
 
+## Firebase Rule
+```
+  match /Events/{event} {
+      allow create,read: if request.auth!= null;
+      allow update,delete: if request.auth!= null && request.auth.uid== resource.data.owner;
+  }
+   match /Posts/{event} {
+      allow create,read: if request.auth!= null;
+  }
+  match /users/{user} {
+      allow read, write: if request.auth!= null
+  }
+```
+
 ## Data Model
 
 ### 1. Users Collection
@@ -71,6 +85,7 @@ The app uses a combination of stack and tab navigation. The app conditionally re
 
 - **Auth Stack**: Contains login and sign-up screens.
 - **App Stack**: Contains main app screens, including the bottom tab navigator with screens for `Posts`, `Events`, and `Me`.
+
 
 ## Contribution
 
