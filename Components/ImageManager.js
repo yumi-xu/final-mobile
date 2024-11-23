@@ -2,7 +2,6 @@ import * as ImagePicker from "expo-image-picker";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Alert } from "react-native";
 import { storage } from "../Firebase/firebaseSetup";
-import { DEFAULT_AVATAR } from "./helper";
 
 export async function verifyPermission() {
   const { granted } = await ImagePicker.getCameraPermissionsAsync();
