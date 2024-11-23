@@ -70,6 +70,7 @@ The app uses a combination of stack and tab navigation. The app conditionally re
 
 ## Contribution
 
+### Iteration1
 Wenjing Yang:
 
 - Implement the navigation and the structure of the app.
@@ -80,21 +81,36 @@ Yue Xu:
 - Implement the CRUD operation of Firebase and UserContext.
 - Implement the screens and logics: Me, MeEdit, Signup, Login.
 
+### Iteration2
+Wenjing Yang:
+
+- Implement sort and search functionality.
+- Implement camera feature for user avatar and post.
+
+Yue Xu:
+
+- Implement map screen that display the nearest events.
+- Implement authentication includes login, register and resetting passwords.
+
 ## Iteration 1
 
-- Login and Signup:
-  ![Login-IOS](./screenshot/Login-IOS.png)
-  ![Signup-IOS](screenshot/Signup-IOS.png)
+- Login and Signup:  
+  <img src="./screenshot/Login-IOS.png" alt="Login-IOS" width="150" height="300">
+  <img src="screenshot/Signup-IOS.png" alt="Signup-IOS" width="150"  height="300">
+   <img src="screenshot/Reset-IOS.png" alt="Reset-IOS" width="150"  height="300">
 
-- Posts and AddPost:
-  ![Posts-IOS](screenshot/Posts-IOS.png)
-  ![AddPost-IOS](screenshot/AddPost-IOS.png)
+- Posts and AddPost:  
+  <img src="screenshot/Posts-IOS.png" alt="Posts-IOS" width="150"  height="300">
+  <img src="screenshot/AddPost-IOS.png" alt="AddPost-IOS" width="150"  height="300">
 
-- Events, EventDetail and AddEvent:
-  ![Events-IOS](screenshot/Events-IOS.png)
-  ![EventDetail-IOS](screenshot/EventDetail-IOS.png)
-  ![AddEvent-IOS](screenshot/AddEvent-IOS.png)
+- Events, EventDetail and AddEvent:  
+  <img src="screenshot/Events-IOS.png" alt="Events-IOS" width="150"  height="300">
+  <img src="screenshot/EventDetail-IOS.png" alt="EventDetail-IOS" width="150"  height="300">
+  <img src="screenshot/AddEvent-IOS.png" alt="AddEvent-IOS" width="150"  height="300">
 
-- Me, EditMe
-  ![Me-IOS](screenshot/Me-IOS.png)
-  ![EditMe-IOS](screenshot/EditMe-IOS.png)
+- Me, EditMe  
+  <img src="screenshot/Me-IOS.png" alt="Events-IOS" width="150"  height="300">
+  <img src="screenshot/EditMe-IOS.png" alt="EventDetail-IOS" width="150"  height="300">
+
+- Map   
+  <img src="screenshot/Map-IOS.png" alt="Events-IOS" width="150"  height="300">
