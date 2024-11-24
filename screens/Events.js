@@ -7,11 +7,10 @@ import {
   View,
 } from "react-native";
 import { Card, SearchBar } from "@rneui/themed";
-import { collection, onSnapshot } from "firebase/firestore";
-import { database } from "../Firebase/firebaseSetup";
 import { useNavigation } from "@react-navigation/native";
 import { Dropdown } from "react-native-element-dropdown";
 import { eventItem } from "../Styles";
+import useSubscribeToEventsWithReminders from "../Components/useSubscribeToEventsWithReminders";
 const sortOptions = [
   { label: "Title", value: "title" },
   { label: "Date", value: "date" },
@@ -19,28 +18,11 @@ const sortOptions = [
 
 export default function EventScreen() {
   const navigation = useNavigation();
-  const [events, setEvents] = useState([]);
+  const events = useSubscribeToEventsWithReminders();
+
   const [search, setSearch] = useState("");
   const [sortOption, setSortOption] = useState(null);
   const [filteredEvents, setFilteredEvents] = useState([]);
-
-  useEffect(() => {
-    // Subscribe to Events collection
-    const unsubscribeEvents = onSnapshot(
-      collection(database, "Events"),
-      (querySnapshot) => {
-        const updatedItems = querySnapshot.docs.map((snapDoc) => ({
-          ...snapDoc.data(),
-          id: snapDoc.id,
-        }));
-        setEvents(updatedItems); // Update state with fetched items
-      },
-      (error) => {
-        console.error("Error fetching events:", error); // Log errors if any
-      }
-    );
-    return () => unsubscribeEvents();
-  }, []);
 
   // Filter and sort events based on search and sort option
   useEffect(() => {
