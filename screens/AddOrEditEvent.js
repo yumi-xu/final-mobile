@@ -70,6 +70,7 @@ export default function AddEditEvent({ route, navigation }) {
       dateTime: dateTime.toDateString(),
       coordinates,
       owner: auth.currentUser.uid,
+      requiresReminder: reminder
     };
     if (!isEditMode) {
       writeToDB(newEvent, "Events");
