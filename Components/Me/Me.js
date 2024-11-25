@@ -6,10 +6,11 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { Avatar, Card, Icon} from "@rneui/themed";
+import { Avatar, Card, Icon } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { useMyUserInfo } from "./useMyUserInfo";
 import { MyEvents } from "./MyEvents";
+import WeatherApp from "../WeatherApp";
 
 export default function Me() {
   const navigation = useNavigation();
@@ -42,6 +43,10 @@ export default function Me() {
       </Card>
 
       <MyEvents />
+      <Card containerStyle={styles.card}>
+        <Text style={styles.sectionTitle}>Weather Information</Text>
+        <WeatherApp />
+      </Card>
     </ScrollView>
   );
 }
@@ -50,7 +55,6 @@ const styles = StyleSheet.create({
   card: {
     padding: 0,
     borderRadius: 10,
-    overflow: "hidden",
   },
   header: {
     flexDirection: "row",
