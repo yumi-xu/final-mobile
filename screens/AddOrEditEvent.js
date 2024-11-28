@@ -60,6 +60,10 @@ export default function AddEditEvent({ route, navigation }) {
 
     if (!isEditMode) {
       fetchCurrentLocation();
+    } else {
+      navigation.setOptions({
+        title: "Edit Event",
+      });
     }
   }, [isEditMode]);
 
@@ -71,7 +75,7 @@ export default function AddEditEvent({ route, navigation }) {
       dateTime: dateTime.toDateString(),
       coordinates,
       owner: auth.currentUser.uid,
-      requiresReminder: reminder
+      requiresReminder: reminder,
     };
     if (!isEditMode) {
       writeToDB(newEvent, "Events");
@@ -91,7 +95,7 @@ export default function AddEditEvent({ route, navigation }) {
           },
         },
       ],
-      { cancelable: false },
+      { cancelable: false }
     );
   };
 
