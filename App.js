@@ -8,7 +8,7 @@ import Me from "./Components/Me/Me";
 import MeEdit from "./Components/Me/MeEdit";
 import Posts from "./screens/Posts";
 import AddPost from "./screens/AddPost";
-import { Button, Icon } from "@rneui/base";
+import { Icon } from "@rneui/base";
 import EventDetail from "./screens/EventDetail";
 import AddEditEvent from "./screens/AddOrEditEvent";
 import Signup from "./Components/Signup";
@@ -141,11 +141,12 @@ export default function App() {
         options={({ navigation }) => ({
           title: "Add Post",
           headerLeft: () => (
-            <Icon
-              name="arrow-back"
-              type="ionicon"
+            <TouchableOpacity
+              style={styles.headerIcon}
               onPress={() => navigation.goBack()}
-            />
+            >
+              <Icon name="arrow-back" type="ionicon" />
+            </TouchableOpacity>
           ),
         })}
       />
@@ -159,12 +160,14 @@ export default function App() {
         component={AddEditEvent}
         options={({ navigation }) => ({
           headerLeft: () => (
-            <Icon
-              name="arrow-back"
-              type="ionicon"
+            <TouchableOpacity
+              style={styles.headerIcon}
               onPress={() => navigation.goBack()}
-            />
+            >
+              <Icon name="arrow-back" type="ionicon" />
+            </TouchableOpacity>
           ),
+          title: "Create Event",
         })}
       />
       <Stack.Screen name="MeEdit" component={MeEdit} />
