@@ -4,6 +4,7 @@ import { Button } from "@rneui/themed";
 import { auth } from "../Firebase/firebaseSetup";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { authStyles } from "../Styles";
+import { isEmailValid } from "./helper";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
@@ -13,6 +14,11 @@ export default function Login({ navigation }) {
     //check login info
     if (email.length === 0 || password.length === 0) {
       Alert.alert("All fields should be provided!");
+      return;
+    }
+
+    if (!isEmailValid(email)) {
+      Alert.alert("Error", "Email address is invalid!");
       return;
     }
 

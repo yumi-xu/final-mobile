@@ -16,7 +16,6 @@ import { useLoginUserId } from "../UserContext";
 import { updateDB } from "../../Firebase/firestoreHelper";
 import { AvatarEdit } from "./AvatarEdit";
 import { uploadImage } from "../ImageManager";
-import { DEFAULT_AVATAR } from "../helper";
 
 export default function MeEdit() {
   const navigation = useNavigation();

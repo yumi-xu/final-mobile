@@ -1,10 +1,9 @@
+import { isEmailValid, isPhoneValid } from "../helper";
+
 const MIN_NAME_LENGTH = 5;
 const MAX_NAME_LENGTH = 20;
 const MAX_ADDRESS_LENGTH = 30;
 const MAX_DESCRIPTION_LENGTH = 100;
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PHONE_REGEX = /^\d{10}$/;
 
 export const validateUserInfo = (userInfo) => {
   const { name, age, sex, avatar, email, phone, address, description } =
@@ -41,14 +40,14 @@ export const validateUserInfo = (userInfo) => {
   //validate email
   if (!email) {
     errors.push("Email cannot be empty!");
-  } else if (!EMAIL_REGEX.test(email)) {
+  } else if (!isEmailValid(email)) {
     errors.push("Invalid email format!");
   }
 
   //validate phone
   if (!phone) {
     errors.push("Phone cannot be empty!");
-  } else if (!PHONE_REGEX.test(phone)) {
+  } else if (!isPhoneValid(phone)) {
     errors.push("Invalid phone format!");
   }
 

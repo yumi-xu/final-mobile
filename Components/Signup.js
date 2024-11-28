@@ -4,29 +4,13 @@ import { Button } from "@rneui/themed";
 import { auth } from "../Firebase/firebaseSetup";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { writeToDBWithId } from "../Firebase/firestoreHelper";
-import { DEFAULT_AVATAR } from "./helper";
+import { DEFAULT_AVATAR, isEmailValid, isPasswordStrong } from "./helper";
 import { authStyles } from "../Styles";
 
 export default function Signup({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const isPasswordStrong = (password) => {
-    const minLength = 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumber = /\d/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-    return (
-      password.length >= minLength &&
-      hasUpperCase &&
-      hasLowerCase &&
-      hasNumber &&
-      hasSpecialChar
-    );
-  };
 
   const handleSignup = async () => {
     if (
@@ -35,6 +19,10 @@ export default function Signup({ navigation }) {
       confirmPassword.length === 0
     ) {
       Alert.alert("Error", "All fields must be filled out.");
+      return;
+    }
+    if (!isEmailValid(email)) {
+      Alert.alert("Error", "Email address is invalid!");
       return;
     }
     if (password !== confirmPassword) {

@@ -4,6 +4,7 @@ import { Button } from "@rneui/themed";
 import { auth } from "../Firebase/firebaseSetup";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { authStyles } from "../Styles";
+import { isEmailValid } from "./helper";
 
 export default function ResetPassword({ navigation }) {
   const [email, setEmail] = useState("");
@@ -11,6 +12,11 @@ export default function ResetPassword({ navigation }) {
   const handlePasswordReset = async () => {
     if (!email) {
       Alert.alert("Error", "Please enter your email address.");
+      return;
+    }
+
+    if (!isEmailValid(email)) {
+      Alert.alert("Error", "Email address is invalid!");
       return;
     }
 
