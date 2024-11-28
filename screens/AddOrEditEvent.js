@@ -17,6 +17,7 @@ export default function AddEditEvent({ route, navigation }) {
     location: "",
     description: "",
     dateTime: new Date(),
+    requiresReminder: false,
     coordinates: { latitude: 49.2827, longitude: -123.1207 },
   };
 
@@ -24,7 +25,7 @@ export default function AddEditEvent({ route, navigation }) {
   const [location, setLocation] = useState(initialEvent.location);
   const [description, setDescription] = useState(initialEvent.description);
   const [dateTime, setDateTime] = useState(new Date(initialEvent.dateTime));
-  const [reminder, setReminder] = useState(false);
+  const [reminder, setReminder] = useState(initialEvent.requiresReminder);
   const [coordinates, setCoordinates] = useState(initialEvent.coordinates);
 
   useEffect(() => {

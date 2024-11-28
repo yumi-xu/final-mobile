@@ -41,8 +41,8 @@ const useSubscribeToEventsWithReminders = () => {
       const currentDate = moment().startOf("day");
       const validDate = currentDate.isSameOrAfter(reminderDate);
       if (validDate) {
-        console.log("cu", currentDate);
-        console.log("re", reminderDate);
+        // console.log("cu", currentDate);
+        // console.log("re", reminderDate);
         notification.scheduleNotification(
           "Event Reminder",
           `Don't forget about the event "${event.title}" at ${moment(eventDate).format("YYYY/MM/DD")}!`,
