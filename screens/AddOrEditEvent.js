@@ -190,9 +190,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 15,
   },
-  inputContainer: {
-    // marginBottom: 20,
-  },
   label: {
     fontSize: 16,
     fontWeight: "bold",

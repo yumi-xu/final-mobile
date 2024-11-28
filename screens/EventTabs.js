@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useWindowDimensions, StyleSheet } from "react-native";
+import { useWindowDimensions } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 import EventScreen from "./Events";
 
-export default function EventTabs({ navigation }) {
+export default function EventTabs() {
   const [index, setIndex] = useState(0);
   const layout = useWindowDimensions();
   const [routes] = useState([
@@ -25,19 +25,3 @@ export default function EventTabs({ navigation }) {
     />
   );
 }
-
-// Styles
-const styles = StyleSheet.create({
-  tabBarContainer: {
-    flex: 1,
-    flexDirection: "row",
-  },
-
-  activeTab: {
-    color: "#D32F2F", // Red color for active tab
-    fontWeight: "bold",
-  },
-  inactiveTab: {
-    color: "white", // White color for inactive tab
-  },
-});
