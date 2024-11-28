@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useRef, useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
+import { commonStyles } from "../../Styles";
 
 const genderItems = [
   { label: "Female", value: "Female" },
@@ -33,6 +34,9 @@ export const GenderInput = ({ value, onChange }) => {
       setOpen={setOpen}
       setValue={setGender}
       placeholder="Select an Gender"
+      style={commonStyles.dropdown}
+      textStyle={commonStyles.dropdownText}
+      dropDownContainerStyle={commonStyles.dropdownContainer}
     />
   );
 };

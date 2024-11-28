@@ -290,3 +290,17 @@ export const meStyles = StyleSheet.create({
     borderRadius: 10,
   },
 });
+
+export const commonStyles = StyleSheet.create({
+  dropdown: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+  },
+  dropdownText: {
+    fontSize: 14,
+  },
+  dropdownContainer: {
+    borderColor: "#ccc",
+  },
+});

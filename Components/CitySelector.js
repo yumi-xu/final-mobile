@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import { commonStyles } from "../Styles";
 
 const CitySelector = ({ selectedCity, onCityChange }) => {
   const [open, setOpen] = useState(false);
@@ -36,9 +37,9 @@ const CitySelector = ({ selectedCity, onCityChange }) => {
         }}
         setItems={setItems}
         placeholder="Choose a city"
-        style={styles.dropdown}
-        textStyle={styles.dropdownText}
-        dropDownContainerStyle={styles.dropdownContainer}
+        style={commonStyles.dropdown}
+        textStyle={commonStyles.dropdownText}
+        dropDownContainerStyle={commonStyles.dropdownContainer}
         scrollViewProps={{
           nestedScrollEnabled: true,
         }}
@@ -55,20 +56,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-  },
-  dropdown: {
-    width: 200,
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-  },
-  dropdownText: {
-    fontSize: 16,
-  },
-  dropdownContainer: {
-    width: 200,
-    borderColor: "#ccc",
   },
   selectedText: {
     marginTop: 10,
