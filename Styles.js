@@ -283,3 +283,10 @@ export const authStyles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+export const meStyles = StyleSheet.create({
+  section: {
+    paddingHorizontal: 10,
+    borderRadius: 10,
+  },
+});

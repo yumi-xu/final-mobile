@@ -24,7 +24,6 @@ const CitySelector = ({ selectedCity, onCityChange }) => {
 
   return (
     <View style={[styles.container, open && { zIndex: 1000 }]}>
-      <Text style={styles.title}>Select a City</Text>
       <DropDownPicker
         listMode="SCROLLVIEW"
         open={open}
@@ -56,10 +55,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-  },
-  title: {
-    fontSize: 20,
-    marginBottom: 10,
   },
   dropdown: {
     width: 200,
