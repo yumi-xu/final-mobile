@@ -10,6 +10,7 @@ import { Button, Icon } from "@rneui/themed";
 import { useMyUserInfo } from "../Components/Me/useMyUserInfo";
 import { writeToDB } from "../Firebase/firestoreHelper";
 import { takeImage, uploadImage } from "../Components/ImageManager";
+import { addPost } from "../Styles";
 
 export default function AddPost({ navigation }) {
   const [image, setImage] = useState(null);
@@ -67,35 +68,9 @@ export default function AddPost({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: "center",
-  },
-  imagePicker: {
-    height: 200,
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  previewImage: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 10,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 10,
-    padding: 10,
-    height: 100,
-    textAlignVertical: "top",
-    marginBottom: 20,
-  },
-  buttonContainer: {
-    marginTop: 10,
-  },
+  container: addPost.container,
+  imagePicker: addPost.imagePicker,
+  previewImage: addPost.previewImage,
+  input: addPost.input,
+  buttonContainer: addPost.buttonContainer,
 });

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
+import { eventDetail } from "../Styles";
 export default function EventDetail({ route, navigation }) {
   const { event } = route.params;
 
@@ -30,35 +31,13 @@ export default function EventDetail({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  map: {
-    height: 250,
-    width: "100%",
-  },
-  detailsContainer: {
-    padding: 15,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  dateTime: {
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  location: {
-    fontSize: 16,
-    marginBottom: 15,
-  },
-  description: {
-    fontSize: 14,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 10,
-  },
+  container: eventDetail.container,
+  map: eventDetail.map,
+  detailsContainer: eventDetail.detailsContainer,
+  title: eventDetail.title,
+  dateTime: eventDetail.dateTime,
+  location: eventDetail.location,
+  description: eventDetail.description,
+  buttonContainer: eventDetail.buttonContainer,
 });
+

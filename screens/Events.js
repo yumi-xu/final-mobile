@@ -9,7 +9,7 @@ import {
 import { Card, SearchBar } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { Dropdown } from "react-native-element-dropdown";
-import { eventItem } from "../Styles";
+import { eventItem, events } from "../Styles";
 import useSubscribeToEventsWithReminders from "../Components/useSubscribeToEventsWithReminders";
 const sortOptions = [
   { label: "Title", value: "title" },
@@ -94,46 +94,15 @@ export default function EventScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  searchBar: {
-    marginBottom: 10,
-    overflow: "hidden",
-  },
-  searchInput: {
-    backgroundColor: "#f0f0f0",
-  },
-  sortContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 20,
-  },
-  sortLabel: {
-    fontSize: 16,
-    marginRight: 10,
-  },
-  dropdown: {
-    height: 30,
-    borderColor: "#ccc",
-    minWidth: "30%",
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-  },
-  card: {
-    borderRadius: 10,
-    overflow: "hidden",
-    padding: 10,
-    marginBottom: 20,
-  },
-  mapContainer: {
-    position: "relative",
-  },
-  map: {
-    height: 200,
-    width: "100%",
-  },
+  container: events.container,
+  searchBar: events.searchBar,
+  searchInput: events.searchInput,
+  sortContainer: events.sortContainer,
+  sortLabel: events.sortLabel,
+  dropdown: events.dropdown,
+  card: events.card,
+  mapContainer: events.mapContainer,
+  map: events.map,
   title: eventItem.title,
   location: eventItem.location,
   dateTimeL: eventItem.dateTime,

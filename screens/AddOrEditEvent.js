@@ -7,6 +7,7 @@ import DatePicker from "../Components/Datepicker";
 import { updateDB, writeToDB } from "../Firebase/firestoreHelper";
 import { auth } from "../Firebase/firebaseSetup";
 import * as Location from "expo-location";
+import { addEditEvent } from "../Styles";
 
 Geocoder.init(process.env.EXPO_PUBLIC_mapsApiKey);
 export default function AddEditEvent({ route, navigation }) {
@@ -186,41 +187,13 @@ export default function AddEditEvent({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 15,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#333",
-  },
-  locText: {
-    padding: 10,
-  },
-  map: {
-    height: 200,
-    width: "100%",
-    marginBottom: 20,
-  },
-  reminderContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  reminderText: {
-    marginLeft: 10,
-    color: "#333",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  cancelButton: {
-    paddingHorizontal: 30,
-  },
-  saveButton: {
-    paddingHorizontal: 30,
-  },
+  container: addEditEvent.container,
+  label: addEditEvent.label,
+  locText: addEditEvent.locText,
+  map: addEditEvent.map,
+  reminderContainer: addEditEvent.reminderContainer,
+  reminderText: addEditEvent.reminderText,
+  buttonContainer: addEditEvent.buttonContainer,
+  cancelButton: addEditEvent.cancelButton,
+  saveButton: addEditEvent.saveButton,
 });
