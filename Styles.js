@@ -303,4 +303,25 @@ export const commonStyles = StyleSheet.create({
   dropdownContainer: {
     borderColor: "#ccc",
   },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+    marginTop: 15,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 15,
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+  },
+  button: {
+    marginHorizontal: 10,
+  },
 });

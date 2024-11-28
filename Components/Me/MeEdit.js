@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  TextInput,
-  Alert,
-  StyleSheet,
-  ScrollView,
-  View,
-} from "react-native";
+import { Text, TextInput, Alert, ScrollView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useMyUserInfo } from "./useMyUserInfo";
 import { Button, Card, Dialog } from "@rneui/themed";
@@ -16,6 +9,7 @@ import { useLoginUserId } from "../UserContext";
 import { updateDB } from "../../Firebase/firestoreHelper";
 import { AvatarEdit } from "./AvatarEdit";
 import { uploadImage } from "../ImageManager";
+import { commonStyles } from "../../Styles";
 
 export default function MeEdit() {
   const navigation = useNavigation();
@@ -110,55 +104,63 @@ export default function MeEdit() {
     <>
       <ScrollView>
         <Card>
-          <Text style={styles.label}>Avatar</Text>
+          <Text style={commonStyles.label}>Avatar</Text>
           <AvatarEdit avatar={avatar} onChange={setAvatar} />
 
-          <Text style={styles.label}>Name *</Text>
-          <TextInput value={name} onChangeText={setName} style={styles.input} />
+          <Text style={commonStyles.label}>Name *</Text>
+          <TextInput
+            value={name}
+            onChangeText={setName}
+            style={commonStyles.input}
+          />
 
-          <Text style={styles.label}>Age *</Text>
-          <TextInput value={age} onChangeText={setAge} style={styles.input} />
+          <Text style={commonStyles.label}>Age *</Text>
+          <TextInput
+            value={age}
+            onChangeText={setAge}
+            style={commonStyles.input}
+          />
 
-          <Text style={styles.label}>Sex *</Text>
+          <Text style={commonStyles.label}>Sex *</Text>
           <GenderInput value={sex} onChange={setSex} />
 
-          <Text style={styles.label}>Email *</Text>
+          <Text style={commonStyles.label}>Email *</Text>
           <TextInput
             value={email}
             onChangeText={setEmail}
-            style={styles.input}
+            style={commonStyles.input}
           />
 
-          <Text style={styles.label}>Phone *</Text>
+          <Text style={commonStyles.label}>Phone *</Text>
           <TextInput
             value={phone}
             onChangeText={setPhone}
-            style={styles.input}
+            style={commonStyles.input}
           />
 
-          <Text style={styles.label}>Address *</Text>
+          <Text style={commonStyles.label}>Address *</Text>
           <TextInput
             value={address}
             onChangeText={setAddress}
-            style={styles.input}
+            style={commonStyles.input}
           />
 
-          <Text style={styles.label}>Description *</Text>
+          <Text style={commonStyles.label}>Description *</Text>
           <TextInput
             value={description}
             onChangeText={setDescription}
-            style={styles.input}
+            style={commonStyles.input}
           />
-          <View style={styles.buttonContainer}>
+          <View style={commonStyles.buttons}>
             <Button
               title="Cancel"
               onPress={handleCancel}
-              buttonStyle={styles.button}
+              buttonStyle={commonStyles.button}
             />
             <Button
               title="Submit"
               onPress={handleUpdateProfile}
-              buttonStyle={styles.button}
+              buttonStyle={commonStyles.button}
             />
           </View>
         </Card>
@@ -169,28 +171,3 @@ export default function MeEdit() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  label: {
-    fontSize: 16,
-    marginBottom: 5,
-    marginTop: 15,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 15,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 20,
-  },
-  button: {
-    flex: 1, // make the button take up equal space
-    marginHorizontal: 5, // add some spacing between buttons
-  },
-});
