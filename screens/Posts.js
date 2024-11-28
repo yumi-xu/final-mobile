@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView } from "react-native";
 import { collection, onSnapshot } from "firebase/firestore";
 import { database } from "../Firebase/firebaseSetup";
 import PostItem from "../Components/PostItem";
@@ -29,5 +29,3 @@ export default function Posts() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({});

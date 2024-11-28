@@ -4,6 +4,7 @@ import { Card, Avatar, Icon } from "@rneui/themed";
 import { updateDB } from "../Firebase/firestoreHelper";
 import { useMyUserInfo } from "./Me/useMyUserInfo";
 import { downloadImage } from "./ImageManager";
+import { postItem } from "../Styles";
 
 export default function PostItem({ item: post }) {
   const [favoriteCount, setFavoriteCount] = useState(post.favoriteCount || 0);
@@ -84,35 +85,11 @@ export default function PostItem({ item: post }) {
 }
 
 const styles = StyleSheet.create({
-  card: {
-    padding: 0,
-    borderRadius: 10,
-    overflow: "hidden",
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    justifyContent: "space-between",
-  },
-  userName: {
-    marginLeft: 10,
-    fontWeight: "bold",
-    flex: 1,
-  },
-  favoriteContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  favoriteCount: {
-    marginLeft: 5,
-    color: "gray",
-  },
-  postImage: {
-    width: "100%",
-    height: 300,
-  },
-  description: {
-    padding: 10,
-  },
+  card: postItem.card,
+  header: postItem.header,
+  userName: postItem.userName,
+  favoriteContainer: postItem.favoriteContainer,
+  favoriteCount: postItem.favoriteCount,
+  postImage: postItem.postImage,
+  description: postItem.description,
 });

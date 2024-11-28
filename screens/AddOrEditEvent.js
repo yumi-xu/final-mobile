@@ -7,6 +7,7 @@ import DatePicker from "../Components/Datepicker";
 import { updateDB, writeToDB } from "../Firebase/firestoreHelper";
 import { auth } from "../Firebase/firebaseSetup";
 import * as Location from "expo-location";
+import { addEditEvent } from "../Styles";
 
 Geocoder.init(process.env.EXPO_PUBLIC_mapsApiKey);
 export default function AddEditEvent({ route, navigation }) {
@@ -17,6 +18,7 @@ export default function AddEditEvent({ route, navigation }) {
     location: "",
     description: "",
     dateTime: new Date(),
+    requiresReminder: false,
     coordinates: { latitude: 49.2827, longitude: -123.1207 },
   };
 
@@ -24,7 +26,7 @@ export default function AddEditEvent({ route, navigation }) {
   const [location, setLocation] = useState(initialEvent.location);
   const [description, setDescription] = useState(initialEvent.description);
   const [dateTime, setDateTime] = useState(new Date(initialEvent.dateTime));
-  const [reminder, setReminder] = useState(false);
+  const [reminder, setReminder] = useState(initialEvent.requiresReminder);
   const [coordinates, setCoordinates] = useState(initialEvent.coordinates);
 
   useEffect(() => {
@@ -59,6 +61,10 @@ export default function AddEditEvent({ route, navigation }) {
 
     if (!isEditMode) {
       fetchCurrentLocation();
+    } else {
+      navigation.setOptions({
+        title: "Edit Event",
+      });
     }
   }, [isEditMode]);
 
@@ -70,6 +76,7 @@ export default function AddEditEvent({ route, navigation }) {
       dateTime: dateTime.toDateString(),
       coordinates,
       owner: auth.currentUser.uid,
+      requiresReminder: reminder,
     };
     if (!isEditMode) {
       writeToDB(newEvent, "Events");
@@ -89,7 +96,7 @@ export default function AddEditEvent({ route, navigation }) {
           },
         },
       ],
-      { cancelable: false },
+      { cancelable: false }
     );
   };
 
@@ -180,44 +187,13 @@ export default function AddEditEvent({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 15,
-  },
-  inputContainer: {
-    // marginBottom: 20,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#333",
-  },
-  locText: {
-    padding: 10,
-  },
-  map: {
-    height: 200,
-    width: "100%",
-    marginBottom: 20,
-  },
-  reminderContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  reminderText: {
-    marginLeft: 10,
-    color: "#333",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  cancelButton: {
-    paddingHorizontal: 30,
-  },
-  saveButton: {
-    paddingHorizontal: 30,
-  },
+  container: addEditEvent.container,
+  label: addEditEvent.label,
+  locText: addEditEvent.locText,
+  map: addEditEvent.map,
+  reminderContainer: addEditEvent.reminderContainer,
+  reminderText: addEditEvent.reminderText,
+  buttonContainer: addEditEvent.buttonContainer,
+  cancelButton: addEditEvent.cancelButton,
+  saveButton: addEditEvent.saveButton,
 });

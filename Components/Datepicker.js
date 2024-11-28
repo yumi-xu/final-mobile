@@ -2,6 +2,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "@rneui/themed";
 import { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { datePicker } from "../Styles";
 export default function DatePicker({ date, onDateChange }) {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [dateTxt, setDateTxt] = useState();
@@ -43,21 +44,7 @@ export default function DatePicker({ date, onDateChange }) {
   );
 }
 const styles = StyleSheet.create({
-  inputContainer: {
-    padding: 10,
-    borderWidth: 2,
-    borderRadius: 5,
-    fontSize: 18,
-  },
-  dateInput: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 20,
-    backgroundColor: "#fff",
-  },
-  dateText: {
-    color: "#333",
-  },
+  inputContainer: datePicker.inputContainer,
+  dateInput: datePicker.dateInput,
+  dateText: datePicker.dateText,
 });
