@@ -1,3 +1,5 @@
+import { StyleSheet } from "react-native";
+
 export const headerIcon = {
   marginHorizontal: 5,
 };
@@ -234,3 +236,50 @@ export const postItem = {
     padding: 10,
   },
 };
+
+export const authStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    backgroundColor: "#fff",
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  description: {
+    fontSize: 16,
+    textAlign: "left",
+    marginBottom: 20,
+    color: "#555",
+  },
+  label: {
+    alignSelf: "flex-start",
+    marginLeft: 20,
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  input: {
+    width: "90%",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 15,
+  },
+  button: {
+    backgroundColor: "#ffffff",
+    padding: 15,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#007aff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});

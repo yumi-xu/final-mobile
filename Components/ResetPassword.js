@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert, StyleSheet } from "react-native";
+import { Text, TextInput, Alert, ScrollView } from "react-native";
+import { Button } from "@rneui/themed";
 import { auth } from "../Firebase/firebaseSetup";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { authStyles } from "../Styles";
 
 export default function ResetPassword({ navigation }) {
   const [email, setEmail] = useState("");
@@ -22,53 +24,31 @@ export default function ResetPassword({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Reset Password</Text>
-      <Text style={styles.description}>
+    <ScrollView contentContainerStyle={authStyles.container}>
+      <Text style={authStyles.header}>Reset Password</Text>
+      <Text style={authStyles.description}>
         Enter your email address below and we'll send you a link to reset your
         password.
       </Text>
+      <Text style={authStyles.label}>Email Address</Text>
       <TextInput
         value={email}
         onChangeText={setEmail}
         placeholder="Email"
-        style={styles.input}
+        style={authStyles.input}
       />
-      <Button title="Send Reset Email" onPress={handlePasswordReset} />
+      <Button
+        title="Send Reset Email"
+        buttonStyle={authStyles.button}
+        titleStyle={authStyles.buttonText}
+        onPress={handlePasswordReset}
+      />
       <Button
         title="Back to Login"
+        buttonStyle={authStyles.button}
+        titleStyle={authStyles.buttonText}
         onPress={() => navigation.navigate("Login")}
       />
-    </View>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#fff",
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-    textAlign: "center",
-  },
-  description: {
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 20,
-    color: "#555",
-  },
-  input: {
-    width: "90%",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 15,
-  },
-});

@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import {
-  Text,
-  TextInput,
-  Button,
-  Alert,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { Text, TextInput, Alert, ScrollView } from "react-native";
+import { Button } from "@rneui/themed";
 import { auth } from "../Firebase/firebaseSetup";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { writeToDBWithId } from "../Firebase/firestoreHelper";
 import { DEFAULT_AVATAR } from "./helper";
+import { authStyles } from "../Styles";
 
 export default function Signup({ navigation }) {
   const [email, setEmail] = useState("");
@@ -84,104 +79,60 @@ export default function Signup({ navigation }) {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>Welcome to WanderConnect!</Text>
-      <Text style={styles.description}>
+    <ScrollView contentContainerStyle={authStyles.container}>
+      <Text style={authStyles.header}>Welcome to WanderConnect!</Text>
+      <Text style={authStyles.description}>
         Discover the world, share your journeys, and connect with fellow
         travelers on WanderConnect, your ultimate social travel companion. Join
         a community of travel enthusiasts and make your next adventure
         unforgettable.
       </Text>
-      <Text style={styles.label}>Email Address</Text>
+      <Text style={authStyles.label}>Email Address</Text>
       <TextInput
         value={email}
         onChangeText={setEmail}
         placeholder="Email"
-        style={styles.input}
+        style={authStyles.input}
       />
 
-      <Text style={styles.label}>Password</Text>
+      <Text style={authStyles.label}>Password</Text>
       <TextInput
         value={password}
         onChangeText={setPassword}
         placeholder="Password"
         secureTextEntry
-        style={styles.input}
+        style={authStyles.input}
       />
 
-      <Text style={styles.label}>Confirm Password</Text>
+      <Text style={authStyles.label}>Confirm Password</Text>
       <TextInput
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         placeholder="Confirm password"
         secureTextEntry
-        style={styles.input}
+        style={authStyles.input}
       />
 
-      <Button title="Register" onPress={handleSignup} />
+      <Button
+        title="Register"
+        buttonStyle={authStyles.button}
+        titleStyle={authStyles.buttonText}
+        onPress={handleSignup}
+      />
 
       <Button
         title="Forgot Password?"
+        buttonStyle={authStyles.button}
+        titleStyle={authStyles.buttonText}
         onPress={() => navigation.navigate("ResetPassword")}
       />
 
       <Button
         title="Already Registered? Login"
+        buttonStyle={authStyles.button}
+        titleStyle={authStyles.buttonText}
         onPress={() => navigation.navigate("Login")}
       />
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#fff",
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-    textAlign: "center",
-  },
-  description: {
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 20,
-    color: "#555",
-  },
-  label: {
-    alignSelf: "flex-start",
-    marginLeft: 20,
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  input: {
-    width: "90%",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 15,
-  },
-  button: {
-    width: "90%",
-    backgroundColor: "#6200ee",
-    padding: 15,
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  link: {
-    color: "#6200ee",
-    marginTop: 10,
-    fontSize: 16,
-  },
-});
