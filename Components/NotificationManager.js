@@ -1,6 +1,13 @@
 import { useEffect } from "react";
 import { Alert } from "react-native";
 import * as Notifications from "expo-notifications";
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 const NotificationManager = () => {
   // Request permissions when the component mounts
@@ -44,7 +51,7 @@ const NotificationManager = () => {
       const hasPermission = await verifyPermissions();
       if (!hasPermission) return;
 
-      const notificationId = await Notifications.scheduleNotificationAsync({
+      await Notifications.scheduleNotificationAsync({
         content: {
           title: title || "Reminder",
           body: body || "This is your scheduled reminder!",
@@ -54,11 +61,7 @@ const NotificationManager = () => {
           seconds: triggerSeconds || 10, // Default: 10 seconds delay
         },
       });
-
-      Alert.alert(
-        "Notification Scheduled",
-        `Your notification has been scheduled! ID: ${notificationId}`
-      );
+      console.log('event notification scheduled')
     } catch (err) {
       console.error("Error scheduling notification:", err);
       Alert.alert("Error", "Failed to schedule the notification.");

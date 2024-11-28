@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { database } from "../Firebase/firebaseSetup";
 import NotificationManager from "./NotificationManager";
+import moment from "moment";
 const useSubscribeToEventsWithReminders = () => {
   const [events, setEvents] = useState([]);
   const notification = NotificationManager();
@@ -35,17 +36,17 @@ const useSubscribeToEventsWithReminders = () => {
     };
 
     const scheduleNotification = (event) => {
-      console.log(event)
-      const currentTime = new Date();
-      const reminderTime = new Date(event.dateTime); // Assuming reminderTime is a timestamp
-      console.log("cu", currentTime);
-      console.log("re", reminderTime);
-      if (reminderTime < currentTime) {
-        const triggerTime = reminderTime.getTime() - currentTime.getTime();
+      const eventDate = new Date(event.dateTime).toISOString(); //(dynamic value from service)
+      const reminderDate = moment(eventDate).subtract(1, "days");
+      const currentDate = moment().startOf("day");
+      const validDate = currentDate.isSameOrAfter(reminderDate);
+      if (validDate) {
+        console.log("cu", currentDate);
+        console.log("re", reminderDate);
         notification.scheduleNotification(
           "Event Reminder",
-          "Don't forget about the event at 5 PM!",
-          5 // Notification will appear after 1 hour
+          `Don't forget about the event "${event.title}" at ${moment(eventDate).format("YYYY/MM/DD")}!`,
+          5
         );
       } else {
         console.log(
