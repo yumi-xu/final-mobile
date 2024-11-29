@@ -3,7 +3,7 @@ import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Card, Icon, Text } from "@rneui/themed";
 import { useMyEvents } from "./useMyEvents";
 import { useNavigation } from "@react-navigation/native";
-import { eventItem } from "../../Styles";
+import { eventItem, meStyles } from "../../Styles";
 import { deleteFromDB } from "../../Firebase/firestoreHelper";
 
 export const MyEvents = () => {
@@ -24,7 +24,7 @@ export const MyEvents = () => {
           },
         },
       ],
-      { cancelable: true }
+      { cancelable: true },
     );
   };
 
@@ -32,7 +32,7 @@ export const MyEvents = () => {
     navigation.navigate("AddEditEvent", { event });
   };
   return (
-    <Card containerStyle={styles.card}>
+    <Card containerStyle={meStyles.section}>
       <Card.Title>My Events</Card.Title>
       {myEvents.length === 0 && (
         <Text style={styles.emptyMessage}>
