@@ -1,7 +1,7 @@
 import { isEmailValid, isPhoneValid } from "../helper";
 
 const MIN_NAME_LENGTH = 5;
-const MAX_NAME_LENGTH = 20;
+const MAX_NAME_LENGTH = 30;
 const MAX_ADDRESS_LENGTH = 30;
 const MAX_DESCRIPTION_LENGTH = 100;
 
