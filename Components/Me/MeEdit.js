@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Text, TextInput, Alert, ScrollView, View } from "react-native";
+import { Alert, ScrollView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useMyUserInfo } from "./useMyUserInfo";
-import { Button, Card, Dialog } from "@rneui/themed";
+import { Button, Card, Dialog, Input, Text } from "@rneui/themed";
 import { validateUserInfo } from "./validateUserInfo";
 import { GenderInput } from "./GenderInput";
 import { useLoginUserId } from "../UserContext";
@@ -108,49 +108,25 @@ export default function MeEdit() {
           <AvatarEdit avatar={avatar} onChange={setAvatar} />
 
           <Text style={commonStyles.label}>Name *</Text>
-          <TextInput
-            value={name}
-            onChangeText={setName}
-            style={commonStyles.input}
-          />
+          <Input value={name} onChangeText={setName} />
 
           <Text style={commonStyles.label}>Age *</Text>
-          <TextInput
-            value={age}
-            onChangeText={setAge}
-            style={commonStyles.input}
-          />
+          <Input value={age} onChangeText={setAge} />
 
           <Text style={commonStyles.label}>Sex *</Text>
           <GenderInput value={sex} onChange={setSex} />
 
           <Text style={commonStyles.label}>Email *</Text>
-          <TextInput
-            value={email}
-            onChangeText={setEmail}
-            style={commonStyles.input}
-          />
+          <Input value={email} onChangeText={setEmail} />
 
           <Text style={commonStyles.label}>Phone *</Text>
-          <TextInput
-            value={phone}
-            onChangeText={setPhone}
-            style={commonStyles.input}
-          />
+          <Input value={phone} onChangeText={setPhone} />
 
           <Text style={commonStyles.label}>Address *</Text>
-          <TextInput
-            value={address}
-            onChangeText={setAddress}
-            style={commonStyles.input}
-          />
+          <Input value={address} onChangeText={setAddress} />
 
           <Text style={commonStyles.label}>Description *</Text>
-          <TextInput
-            value={description}
-            onChangeText={setDescription}
-            style={commonStyles.input}
-          />
+          <Input value={description} onChangeText={setDescription} />
           <View style={commonStyles.buttons}>
             <Button
               title="Cancel"

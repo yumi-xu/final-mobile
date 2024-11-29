@@ -305,15 +305,10 @@ export const commonStyles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
+    fontWeight: "bold",
     marginBottom: 5,
-    marginTop: 15,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 15,
+    color: "#333",
+    marginLeft: 5,
   },
   buttons: {
     flexDirection: "row",
