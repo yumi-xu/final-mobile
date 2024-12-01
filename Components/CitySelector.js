@@ -34,7 +34,7 @@ const CitySelector = ({ selectedCity, onCityChange }) => {
         setOpen={setOpen}
         setValue={(city) => {
           setValue(city);
-          onCityChange(city); // 更新父组件的状态
+          onCityChange(city); // update parent component status
         }}
         placeholder="Choose a city"
         style={commonStyles.dropdown}
