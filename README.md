@@ -112,7 +112,7 @@ Yue Xu:
 - Implement authentication includes login, register and resetting passwords.
 
 
-### Iteration2
+### Iteration3
 Wenjing Yang:
 
 - Implement Event notification feature.
