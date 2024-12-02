@@ -147,7 +147,7 @@ Yue Xu:
   <img src="screenshot/Map-IOS.png" alt="Events-IOS" width="150"  height="300">
 
 - Notification   
-  <img src="screenshot/Notification-IOS.png" alt="Events-IOS" width="150"  height="300">
+  <img src="screenshot/notification-IOS.png" alt="Events-IOS" width="150"  height="300">
 
 - Weather   
   <img src="screenshot/Weather-IOS.png" alt="Events-IOS" width="150"  height="300">
