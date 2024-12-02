@@ -111,6 +111,18 @@ Yue Xu:
 - Implement MapAll screen for showing all events and user can check the map events.
 - Implement authentication includes login, register and resetting passwords.
 
+
+### Iteration2
+Wenjing Yang:
+
+- Implement Event notification feature.
+- Update style for related page.
+
+Yue Xu:
+
+- Integrate third-party api to get weather api.
+- Update style for related page.
+
 ## Screenshots
 
 - Login and Signup:  
@@ -133,3 +145,9 @@ Yue Xu:
 
 - Map   
   <img src="screenshot/Map-IOS.png" alt="Events-IOS" width="150"  height="300">
+
+- Notification   
+  <img src="screenshot/Notification-IOS.png" alt="Events-IOS" width="150"  height="300">
+
+- Weather   
+  <img src="screenshot/Weather-IOS.png" alt="Events-IOS" width="150"  height="300">
